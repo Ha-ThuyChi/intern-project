@@ -1,0 +1,153 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                    Int             @id @default(autoincrement())
+  name                  String
+  email                 String          @unique
+  password              String
+  address               String?
+  dob                   DateTime?
+  image                 String?
+  phone                 String
+
+  // in case account is disable 
+  status                Status          @default(ACTIVE)         
+  events                Event[]
+  blogs                 Blog[]
+  tickets               Ticket[]
+  attendees             Attendee[]
+  feedbacks             Feedback[]
+  organizations         Organization[]
+}
+
+model Event {
+  id                Int                   @id @default(autoincrement())
+  name              String
+  locationType      Location
+  location          String
+  image             String?
+  description       String          
+  startDate         DateTime
+  endDate           DateTime
+  status            Status
+  userId            Int
+  organizationId    Int?                
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+  Organization      Organization?        @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  User              User                @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  topics            TopicsOfEvents[]
+  feedbacks         Feedback[]
+  sessions          Session[]
+}
+
+model Organization {
+  id            Int                     @id @default(autoincrement())
+  name          String
+  description   String  
+  phone         String 
+  email         String
+  createdAt     DateTime                @default(now())
+  userId        Int
+  User          User                    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  events        Event[]
+}
+
+// Example: Science, Educaiton, Fashion, etc
+model Topic {
+  id            Int                     @id @default(autoincrement())
+  name          String
+  events        TopicsOfEvents[]
+}
+
+model TopicsOfEvents {
+  topicId         Int
+  eventId         Int
+  Topic           Topic                 @relation(fields: [topicId], references: [id], onDelete: Cascade)
+  Event           Event                 @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+  @@id([topicId, eventId])
+}
+
+// for small sessions of a main event
+model Session {
+  id                  Int               @id @default(autoincrement())
+  name                String
+  description         String? 
+  startDate           DateTime
+  endDate             DateTime
+  hostName            String?
+  eventId             Int
+  Event               Event              @relation(fields: [eventId], references: [id], onDelete: Cascade)
+}
+
+model Blog {
+  id                Int                   @id @default(autoincrement())
+  content           String
+  authorId          Int
+  User              User                  @relation(fields:[authorId], references:[id], onDelete: Cascade)
+}
+
+// for users' purchased tickets 
+model Attendee {
+  userId            Int
+  ticketId          Int
+  User              User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  Ticket            Ticket                @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+
+  @@id([userId, ticketId])        
+}
+
+model Ticket {
+  id                Int                   @id @default(autoincrement())
+  type              Type
+  name              String                @default("Ticket")
+  isVisible         Boolean               @default(true)
+  price             Int
+  quantity          Int
+  startDate         DateTime
+  endDate           DateTime
+  eventId           Int
+  attendees         Attendee[]
+  users             User[] 
+}
+
+model Feedback {
+  id                Int                   @id @default(autoincrement())
+  content           String
+  userId            Int
+  eventId           Int
+  User              User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  Event             Event                 @relation(fields: [eventId], references: [id], onDelete: Cascade)
+}
+
+enum Location {
+  OFFLINE
+  ONLINE
+}
+
+enum Type {
+  PAID
+  DONATION
+  FREE  
+}
+
+enum Status {
+  ACTIVE
+  DISABLE
+  PENDING
+}
+    
