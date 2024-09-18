@@ -12,7 +12,6 @@ export class AuthService {
     constructor(
         private jwtService: JwtService,
         private userRepository: UserRepository,
-        private userService: UsersService
     ) {}
 
     async signIn(data: SignInDTO) {
