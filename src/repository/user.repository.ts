@@ -13,6 +13,7 @@ export class UserRepository {
         });
         return foundUser;
     };
+
     async createUser(email: string, password: string, name: string, phone: string) {
         const createdUser = await this.prismaService.user.create({
             data: {
@@ -23,5 +24,14 @@ export class UserRepository {
             }
         });
         return createdUser;
+    };
+
+    async findOne(userId: number) {
+        const foundUser = await this.prismaService.user.findFirst({
+            where: {
+                id: userId
+            }
+        });
+        return foundUser;
     }
 }
