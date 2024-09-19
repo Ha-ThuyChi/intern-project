@@ -1,5 +1,5 @@
 import { Injectable, NotAcceptableException, NotFoundException } from "@nestjs/common";
-import { OrganizationRepository } from "src/repository/organization.repository";
+import { OrganizationRepository } from "src/server/repository/organization.repository";
 import { OrganizationDTO } from "./dto/organization.dto";
 import { PaginationDTO } from "src/pagination.dto";
 
