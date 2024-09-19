@@ -32,6 +32,14 @@ async function main() {
         data: [
             {name: 'Event1', locationType: 'ONLINE', location: 'Microsoft Teams', description: 'description1', startDate: new Date(2023, 6, 1), endDate: new Date(2023, 6, 2), status: 'ACTIVE',userId: user1.id},
             {name: 'Event2', locationType: 'ONLINE', location: 'Microsoft Teams', description: 'description1', startDate: new Date(2023, 6, 1), endDate: new Date(2023, 6, 2), status: 'ACTIVE', userId: user1.id},
+            {name: 'Event2', locationType: 'ONLINE', location: 'Microsoft Teams', description: 'description1', startDate: new Date(2023, 6, 1), endDate: new Date(2023, 6, 2), status: 'ACTIVE', userId: user1.id},
+            {name: 'Event2', locationType: 'ONLINE', location: 'Microsoft Teams', description: 'description1', startDate: new Date(2023, 6, 1), endDate: new Date(2023, 6, 2), status: 'ACTIVE', userId: user1.id},
+            {name: 'Event2', locationType: 'ONLINE', location: 'Microsoft Teams', description: 'description1', startDate: new Date(2023, 6, 1), endDate: new Date(2023, 6, 2), status: 'ACTIVE', userId: user1.id},
+            {name: 'Event2', locationType: 'ONLINE', location: 'Microsoft Teams', description: 'description1', startDate: new Date(2023, 6, 1), endDate: new Date(2023, 6, 2), status: 'ACTIVE', userId: user1.id},
+            {name: 'Event2', locationType: 'ONLINE', location: 'Microsoft Teams', description: 'description1', startDate: new Date(2023, 6, 1), endDate: new Date(2023, 6, 2), status: 'ACTIVE', userId: user1.id},
+            {name: 'Event2', locationType: 'ONLINE', location: 'Microsoft Teams', description: 'description1', startDate: new Date(2023, 6, 1), endDate: new Date(2023, 6, 2), status: 'ACTIVE', userId: user1.id},
+            {name: 'Event2', locationType: 'ONLINE', location: 'Microsoft Teams', description: 'description1', startDate: new Date(2023, 6, 1), endDate: new Date(2023, 6, 2), status: 'ACTIVE', userId: user1.id},
+            {name: 'Event2', locationType: 'ONLINE', location: 'Microsoft Teams', description: 'description1', startDate: new Date(2023, 6, 1), endDate: new Date(2023, 6, 2), status: 'ACTIVE', userId: user1.id},
         ]
     });
     console.log(user, event, organization)
