@@ -33,8 +33,4 @@ export class UsersService {
     }
     return {success: true, message: createdUser};
   }
-
-  // remove(id: number) {
-  //   return `This action removes a #${id} user`;
-  // }
 }
