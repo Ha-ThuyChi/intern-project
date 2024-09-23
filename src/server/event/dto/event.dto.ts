@@ -1,7 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsDate, IsEnum, IsNumber, IsOptional, IsString } from "class-validator";
-import { Status } from "src/auth/dto/sign-up.dto";
-import { LocationType } from "src/enum";
+import { Status } from "src/server/auth/dto/sign-up.dto";
+import { LocationType } from "src/server/enum";
 
 export class EventDTO {
     @ApiProperty()
