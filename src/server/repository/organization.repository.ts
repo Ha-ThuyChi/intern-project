@@ -70,7 +70,7 @@ export class OrganizationRepository {
         return updatedOrganization;
     };
     
-    async deletedOrganization(organizationId: number) {
+    async deleteOrganization(organizationId: number) {
         const deletedOrganization = await this.prismaService.organization.delete({
             where: {
                 id: organizationId

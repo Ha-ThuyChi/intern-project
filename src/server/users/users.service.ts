@@ -1,6 +1,5 @@
 import { BadRequestException, ConflictException, Injectable, NotAcceptableException } from '@nestjs/common';
-import { SignUpDTO } from '../auth/dto/sign-up.dto';
-import { UserRepository } from '../repository/user.repository';
+import { UserRepository } from 'src/server/repository/user.repository';
 
 @Injectable()
 export class UsersService {

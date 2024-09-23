@@ -1,7 +1,7 @@
 import { Injectable, NotAcceptableException, NotFoundException } from "@nestjs/common";
-import { OrganizationRepository } from "src/repository/organization.repository";
+import { OrganizationRepository } from "src/server/repository/organization.repository";
 import { OrganizationDTO } from "./dto/organization.dto";
-import { PaginationDTO } from "src/pagination.dto";
+import { PaginationDTO } from "src/server/pagination.dto";
 
 @Injectable()
 export class OrganizationService {
@@ -37,7 +37,7 @@ export class OrganizationService {
         if (!foundOrganizations) {
             throw new NotFoundException("Organizations not found.")
         };
-        return foundOrganizations;
+        return {sucess: true, message: foundOrganizations};
     };
 
     async updateOrganization(organizationId: number, data: OrganizationDTO) {
@@ -54,8 +54,8 @@ export class OrganizationService {
         return {success: true, message: updatedOrganization};
     };
     
-    async deletedOrganization(organizationId: number) {
-        const deletedOrganization = await this.organizationRepository.deletedOrganization(organizationId);
+    async deleteOrganization(organizationId: number) {
+        const deletedOrganization = await this.organizationRepository.deleteOrganization(organizationId);
         if (!deletedOrganization) {
             throw new NotFoundException("Cannot delete organization.")
         };
