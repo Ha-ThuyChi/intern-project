@@ -2,6 +2,10 @@
 /dist
 /node_modules
 /build
+.next
+/src/client/.next
+/src/client/node_modules
+
 
 # Logs
 logs

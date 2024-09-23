@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { LocationType } from "../enum";
-import { Status } from "src/server/auth/dto/sign-up.dto";
-import { PrismaService } from "src/server/prisma/prisma.service";
+import { Status } from "../auth/dto/sign-up.dto";
+import { PrismaService } from "src/prisma/prisma.service";
 
 @Injectable()
 export class EventRepository {

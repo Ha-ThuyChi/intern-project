@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { EventService } from './event.service';
 import { EventDTO } from './dto/event.dto';
-import { PaginationDTO } from 'src/pagination.dto';
+import { PaginationDTO } from 'src/server/pagination.dto';
 
 @Controller('events')
 export class EventController {
