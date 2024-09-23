@@ -1,7 +1,7 @@
 import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { SignUpDTO } from '../auth/dto/sign-up.dto';
 import { SignInDTO } from './dto/sign-in.dto';
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from "bcryptjs";
 import { JwtService } from '@nestjs/jwt';
 import { UserRepository } from 'src/repository/user.repository';
 import { UsersService } from 'src/users/users.service';
