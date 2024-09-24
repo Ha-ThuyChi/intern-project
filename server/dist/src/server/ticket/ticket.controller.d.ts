@@ -45,4 +45,8 @@ export declare class TicketController {
             eventId: number;
         };
     }>;
+    deleteTicket(ticketId: number): Promise<{
+        success: boolean;
+        message: string;
+    }>;
 }

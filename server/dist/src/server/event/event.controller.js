@@ -37,7 +37,7 @@ let EventController = class EventController {
 };
 exports.EventController = EventController;
 __decorate([
-    (0, common_1.Get)("event/:eventId"),
+    (0, common_1.Get)(":eventId"),
     __param(0, (0, common_1.Param)("eventId")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
@@ -46,7 +46,7 @@ __decorate([
 __decorate([
     (0, common_1.Get)(":userId"),
     __param(0, (0, common_1.Param)("userId")),
-    __param(1, (0, common_1.Query)()),
+    __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number, pagination_dto_1.PaginationDTO]),
     __metadata("design:returntype", void 0)

@@ -1,10 +1,8 @@
 import { EventRepository } from 'src/server/repository/event.repository';
 import { EventDTO } from './dto/event.dto';
-import { UserRepository } from '../repository/user.repository';
 export declare class EventService {
     private eventRepository;
-    private userRepository;
-    constructor(eventRepository: EventRepository, userRepository: UserRepository);
+    constructor(eventRepository: EventRepository);
     findOne(eventId: number): Promise<{
         success: boolean;
         message: {

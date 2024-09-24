@@ -25,9 +25,17 @@ let TicketService = class TicketService {
         }
         ;
         const foundTickets = await this.ticketRepository.getTickets(eventId, data.ticketType);
+        if (data.ticketType === "FREE" || data.ticketType === "DONATION") {
+            if (data.price !== 0) {
+                throw new common_1.NotAcceptableException("Invalid price.");
+            }
+        }
         let createdTicket;
         if (foundTickets) {
-            createdTicket = await this.ticketRepository.updateTicket(foundTickets.id, data.ticketType, data.name, data.price, data.quantity, data.isVisible, data.startDate, data.endDate);
+            if (foundTickets.endDate <= new Date()) {
+                throw new common_1.NotAcceptableException("Cannot create more ticket because the selling is over.");
+            }
+            createdTicket = await this.ticketRepository.updateQuantity(foundTickets.id, foundTickets.quantity + data.quantity);
         }
         else {
             createdTicket = await this.ticketRepository.createTicket(eventId, data.ticketType, data.name, data.price, data.quantity, data.isVisible, data.startDate, data.endDate);
@@ -44,6 +52,11 @@ let TicketService = class TicketService {
             throw new common_1.NotFoundException("Ticket does not exist.");
         }
         ;
+        if (data.ticketType === "FREE" || data.ticketType === "DONATION") {
+            if (data.price !== 0) {
+                throw new common_1.NotAcceptableException("Invalid price.");
+            }
+        }
         const updatedTicket = await this.ticketRepository.updateTicket(ticketId, data.ticketType, data.name, data.price, data.quantity, data.isVisible, data.startDate, data.endDate);
         if (!updatedTicket) {
             return ({ success: false, message: "Ticket is not updated." });
@@ -81,7 +94,7 @@ let TicketService = class TicketService {
             throw new common_1.NotAcceptableException("Ticket is being selling now. Cannot delete ticket.");
         }
         ;
-        const deletedTicket = await this.ticketRepository.deleteTicketType(ticketId);
+        const deletedTicket = await this.ticketRepository.deleteTicket(ticketId);
         if (!deletedTicket) {
             return ({ success: false, message: "Ticket is not deleted." });
         }

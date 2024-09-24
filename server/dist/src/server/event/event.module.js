@@ -12,7 +12,6 @@ const prisma_module_1 = require("../../prisma/prisma.module");
 const event_service_1 = require("./event.service");
 const event_repository_1 = require("../repository/event.repository");
 const event_controller_1 = require("./event.controller");
-const user_repository_1 = require("../repository/user.repository");
 let EventModule = class EventModule {
 };
 exports.EventModule = EventModule;
@@ -20,7 +19,7 @@ exports.EventModule = EventModule = __decorate([
     (0, common_1.Module)({
         imports: [prisma_module_1.PrismaModule],
         controllers: [event_controller_1.EventController],
-        providers: [event_service_1.EventService, event_repository_1.EventRepository, user_repository_1.UserRepository],
+        providers: [event_service_1.EventService, event_repository_1.EventRepository],
     })
 ], EventModule);
 //# sourceMappingURL=event.module.js.map

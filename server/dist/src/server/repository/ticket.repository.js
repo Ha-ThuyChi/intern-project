@@ -77,13 +77,24 @@ let TicketRepository = class TicketRepository {
         });
         return foundTickets;
     }
-    async deleteTicketType(ticketId) {
+    async deleteTicket(ticketId) {
         const deletedTicket = await this.prismaService.ticket.delete({
             where: {
                 id: ticketId
             }
         });
         return deletedTicket;
+    }
+    async updateQuantity(ticketId, quantity) {
+        const updatedTicket = await this.prismaService.ticket.update({
+            data: {
+                quantity: quantity
+            },
+            where: {
+                id: ticketId
+            }
+        });
+        return updatedTicket;
     }
 };
 exports.TicketRepository = TicketRepository;

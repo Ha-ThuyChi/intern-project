@@ -12,11 +12,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.EventService = void 0;
 const common_1 = require("@nestjs/common");
 const event_repository_1 = require("../repository/event.repository");
-const user_repository_1 = require("../repository/user.repository");
 let EventService = class EventService {
-    constructor(eventRepository, userRepository) {
+    constructor(eventRepository) {
         this.eventRepository = eventRepository;
-        this.userRepository = userRepository;
     }
     async findOne(eventId) {
         const foundEvent = await this.eventRepository.findOne(eventId);
@@ -29,8 +27,8 @@ let EventService = class EventService {
     ;
     async findByUserId(userId, skip, limit) {
         const foundEvents = await this.eventRepository.findByUserId(userId, skip, limit);
-        if (foundEvents.total === 0) {
-            throw new common_1.NotFoundException("No event is found.");
+        if (!foundEvents) {
+            throw new common_1.NotFoundException("Event not found.");
         }
         ;
         return { success: true, message: foundEvents };
@@ -38,7 +36,7 @@ let EventService = class EventService {
     ;
     async createEvent(userId, data) {
         const createdEvent = await this.eventRepository.createEvent(userId, data.organizationId, data.name, data.location, data.description, data.image, new Date(data.startDate), new Date(data.endDate), data.status);
-        if (!createdEvent) {
+        if (createdEvent) {
             throw new common_1.NotAcceptableException("Cannot create a new event.");
         }
         ;
@@ -56,7 +54,6 @@ let EventService = class EventService {
 exports.EventService = EventService;
 exports.EventService = EventService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [event_repository_1.EventRepository,
-        user_repository_1.UserRepository])
+    __metadata("design:paramtypes", [event_repository_1.EventRepository])
 ], EventService);
 //# sourceMappingURL=event.service.js.map

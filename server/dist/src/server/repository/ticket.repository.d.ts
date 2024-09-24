@@ -58,7 +58,18 @@ export declare class TicketRepository {
         endDate: Date;
         eventId: number;
     }>;
-    deleteTicketType(ticketId: number): Promise<{
+    deleteTicket(ticketId: number): Promise<{
+        id: number;
+        ticketType: import(".prisma/client").$Enums.TicketType;
+        name: string;
+        isVisible: boolean;
+        price: number;
+        quantity: number;
+        startDate: Date;
+        endDate: Date;
+        eventId: number;
+    }>;
+    updateQuantity(ticketId: number, quantity: number): Promise<{
         id: number;
         ticketType: import(".prisma/client").$Enums.TicketType;
         name: string;

@@ -28,6 +28,14 @@ let EventRepository = class EventRepository {
     ;
     async findByUserId(userId, start, limit) {
         const skip = (start - 1) * limit;
+        const foundUser = await this.prismaService.user.findUnique({
+            where: {
+                id: userId
+            }
+        });
+        if (!foundUser) {
+            throw new common_1.NotFoundException("User not found.");
+        }
         const [events, total] = await Promise.all([
             await this.prismaService.event.findMany({
                 where: {
@@ -58,7 +66,7 @@ let EventRepository = class EventRepository {
         if (organizationId) {
             const foundOrganization = await this.prismaService.organization.findUnique({
                 where: {
-                    id: Number(organizationId)
+                    id: organizationId
                 }
             });
             if (!foundOrganization) {

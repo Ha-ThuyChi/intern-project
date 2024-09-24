@@ -36,6 +36,9 @@ let TicketController = class TicketController {
         return this.ticketService.getTicketByTicketId(Number(ticketId));
     }
     ;
+    deleteTicket(ticketId) {
+        return this.ticketService.deleteTicket(Number(ticketId));
+    }
 };
 exports.TicketController = TicketController;
 __decorate([
@@ -68,6 +71,13 @@ __decorate([
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", void 0)
 ], TicketController.prototype, "getTicketByTicketId", null);
+__decorate([
+    (0, common_1.Delete)(":ticketId"),
+    __param(0, (0, common_1.Param)("ticketId")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number]),
+    __metadata("design:returntype", void 0)
+], TicketController.prototype, "deleteTicket", null);
 exports.TicketController = TicketController = __decorate([
     (0, common_1.Controller)("tickets"),
     __metadata("design:paramtypes", [ticket_service_1.TicketService])
