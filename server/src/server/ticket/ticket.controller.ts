@@ -6,7 +6,7 @@ import { TicketDTO } from "./dto/ticket.dto";
 export class TicketController {
     constructor(private ticketService: TicketService) {}
 
-    @Post(":eventId/ticket")
+    @Post("ticket/:eventId")
     createTicket(
         @Param("eventId") eventId: number,
         @Body() data: TicketDTO
@@ -14,7 +14,7 @@ export class TicketController {
         return this.ticketService.createTicket(Number(eventId), data);
     };
 
-    @Patch(":ticketId/ticket")
+    @Patch("ticket/:ticketId")
     updateTicket(
         @Param("ticketId") ticketId: number,
         @Body() data: TicketDTO
@@ -29,7 +29,7 @@ export class TicketController {
         return this.ticketService.getTicketByEventId(Number(eventId));
     };
 
-    @Get(":ticketId/ticket") 
+    @Get("ticket/:ticketId") 
     getTicketByTicketId(
         @Param("ticketId") ticketId: number
     ) {
