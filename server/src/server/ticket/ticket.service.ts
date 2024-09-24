@@ -15,17 +15,36 @@ export class TicketService {
         if (!foundEvent) {
             throw new NotFoundException("Event does not exist.");
         };
+        const foundTickets = await this.ticketRepository.getTickets(eventId, data.ticketType);
+        let createdTicket;
+        if (foundTickets) {
 
-        const createdTicket = await this.ticketRepository.createTicket(
-            eventId,
-            data.ticketType,
-            data.name,
-            data.price,
-            data.quantity,
-            data.isVisible,
-            data.startDate,
-            data.endDate
-        );
+            // If the ticket type exists
+            createdTicket = await this.ticketRepository.updateTicket(
+                foundTickets.id,
+                data.ticketType,
+                data.name,
+                data.price,
+                data.quantity,
+                data.isVisible,
+                data.startDate,
+                data.endDate,
+            )
+        } else {
+
+            // If ticket type not exist
+            createdTicket = await this.ticketRepository.createTicket(
+                eventId,
+                data.ticketType,
+                data.name,
+                data.price,
+                data.quantity,
+                data.isVisible,
+                data.startDate,
+                data.endDate
+            );
+        }
+        
 
         if (!createdTicket) {
             return({success: false, message: "Ticket is not created."})

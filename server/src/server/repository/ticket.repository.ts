@@ -1,6 +1,8 @@
 import { PrismaService } from "src/prisma/prisma.service";
 import { TicketType } from "../enum";
+import { Injectable } from "@nestjs/common";
 
+@Injectable()
 export class TicketRepository {
     constructor(private prismaService: PrismaService) {}
 
@@ -76,6 +78,17 @@ export class TicketRepository {
         });
         return foundTicket;
     };
+
+    // Find tickets by ticketId and ticketType
+    async getTickets(eventId: number, ticketType: TicketType) {
+        const foundTickets = await this.prismaService.ticket.findFirst({
+            where: {
+                eventId: eventId,
+                ticketType: ticketType,
+            }
+        });
+        return foundTickets;
+    }
 
     async deleteTicketType(ticketId: number) {
         // TODO: Check if any ticket is bought

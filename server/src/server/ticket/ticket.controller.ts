@@ -29,10 +29,10 @@ export class TicketController {
         return this.ticketService.getTicketByEventId(Number(eventId));
     };
 
-    @Get(":ticketId") 
+    @Get(":ticketId/ticket") 
     getTicketByTicketId(
         @Param("ticketId") ticketId: number
     ) {
-        return this.ticketService.getTicketByEventId(Number(ticketId));
+        return this.ticketService.getTicketByTicketId(Number(ticketId));
     };
 }
