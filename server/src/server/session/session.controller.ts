@@ -7,12 +7,12 @@ import { PaginationDTO } from "src/server/pagination.dto";
 export class SessionController {
     constructor(private readonly sessionService: SessionService) {}
     
-    @Post(":userId")
+    @Post(":eventId")
     createSession(
-        @Param("userId") userId: number,
+        @Param("eventId") eventId: number,
         @Body() data: SessionDTO
     ) {
-        return this.sessionService.createSession(Number(userId), data)
+        return this.sessionService.createSession(Number(eventId), data)
     };
 
     @Get(":sessionId")
@@ -22,12 +22,12 @@ export class SessionController {
         return this.sessionService.findOne(Number(sessionId));
     };
 
-    @Get("session/:userId")
+    @Get("session/:eventId")
     getSessionByUserId(
-        @Param("userId") userId: number,
+        @Param("eventId") eventId: number,
         @Query() data: PaginationDTO
     ) {
-        return this.sessionService.findManyByEventId(Number(userId), Number(data.page), Number(data.limit));
+        return this.sessionService.findManyByEventId(Number(eventId), Number(data.page), Number(data.limit));
     };
 
     @Patch(":sessionId")
