@@ -60,7 +60,7 @@ export class EventRepository {
         organizationId: number,
         name: string, 
         location: string, 
-        // locationType: LocationType, 
+        locationType: LocationType, 
         description: string, 
         image: string, 
         startDate: Date, 
@@ -77,8 +77,6 @@ export class EventRepository {
                 throw new NotFoundException("Organization not found.")
             }
         };
-        const locationType = LocationType.OFFLINE
-        console.log(typeof locationType)
         const createdEvent = await this.prismaService.event.create({
             data: {
                 name: name,
@@ -106,5 +104,33 @@ export class EventRepository {
             }
         });
         return updatedEvent;
+    }
+
+    async getEvents(start: number, limit: number) {
+        const skip = (start - 1)*limit;
+        const [foundEvents, total] = await Promise.all([
+            await this.prismaService.event.findMany({
+                where: {
+                    status: "ACTIVE"
+                },
+                orderBy: {
+                    createdAt: "desc"
+                },
+                skip: skip,
+                take: limit,
+            }),
+            await this.prismaService.event.count({
+                where: {
+                    status: "ACTIVE"
+                }
+            })
+        ]) 
+        return {
+            list: foundEvents,
+            total: total,
+            limit: limit,
+            page: start,
+            maxPage: Math.ceil(Number(total) / Number(limit)),
+        };
     }
 }

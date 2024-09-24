@@ -17,9 +17,16 @@ export class EventController {
   @Get(":userId")
   getEventsByUserId(
     @Param("userId") userId: number,
-    @Body() data: PaginationDTO
+    @Query() data: PaginationDTO
   ) {
     return this.eventService.findByUserId(Number(userId), Number(data.page), Number(data.limit));
+  }
+
+  @Get("")
+  getEvents(
+    @Query() data: PaginationDTO
+  ) {
+    return this.eventService.getEvents(Number(data.page), Number(data.limit));
   }
 
   @Post("event/:userId")
