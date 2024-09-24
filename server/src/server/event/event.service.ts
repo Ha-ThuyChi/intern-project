@@ -28,7 +28,7 @@ export class EventService {
       data.organizationId, 
       data.name, 
       data.location, 
-      // data.locationType, 
+      data.locationType, 
       data.description, 
       data.image, 
       new Date(data.startDate), 
@@ -47,5 +47,10 @@ export class EventService {
       throw new NotAcceptableException("Cannot disable event.")
     }
     return {success: true, message: "Event is updated."}
+  };
+
+  async getEvents(start: number, limit: number) {
+    const foundEvents = await this.eventRepository.getEvents(start, limit);
+    return ({success: true, message: foundEvents});
   }
 }
