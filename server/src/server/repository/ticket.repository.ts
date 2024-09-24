@@ -90,7 +90,7 @@ export class TicketRepository {
         return foundTickets;
     }
 
-    async deleteTicketType(ticketId: number) {
+    async deleteTicket(ticketId: number) {
         // TODO: Check if any ticket is bought
         const deletedTicket = await this.prismaService.ticket.delete({
             where: {
@@ -98,5 +98,18 @@ export class TicketRepository {
             }
         });
         return deletedTicket;
+    }
+
+    // Update quantity of ticket
+    async updateQuantity(ticketId: number, quantity: number) {
+        const updatedTicket = await this.prismaService.ticket.update({
+            data: {
+                quantity: quantity
+            },
+            where: {
+                id: ticketId
+            }
+        });
+        return updatedTicket;
     }
 }
