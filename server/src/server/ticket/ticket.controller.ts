@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Patch, Post } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post } from "@nestjs/common";
 import { TicketService } from "./ticket.service";
 import { TicketDTO } from "./dto/ticket.dto";
 
@@ -29,10 +29,17 @@ export class TicketController {
         return this.ticketService.getTicketByEventId(Number(eventId));
     };
 
-    @Get(":ticketId") 
+    @Get(":ticketId/ticket") 
     getTicketByTicketId(
         @Param("ticketId") ticketId: number
     ) {
-        return this.ticketService.getTicketByEventId(Number(ticketId));
+        return this.ticketService.getTicketByTicketId(Number(ticketId));
     };
+
+    @Delete(":ticketId")
+    deleteTicket(
+        @Param("ticketId") ticketId: number
+    ) {
+        return this.ticketService.deleteTicket(Number(ticketId));
+    }
 }
