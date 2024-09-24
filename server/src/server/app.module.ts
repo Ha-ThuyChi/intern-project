@@ -7,6 +7,7 @@ import { UsersModule } from './users/users.module';
 import { EventModule } from './event/event.module';
 import { OrganizationModule } from './organization/organization.module';
 import { SessionModule } from './session/session.module';
+import { TicketModule } from './ticket/ticket.module';
 
 @Module({
   imports: [
@@ -15,7 +16,8 @@ import { SessionModule } from './session/session.module';
     UsersModule,
     EventModule,
     OrganizationModule,
-    SessionModule
+    SessionModule,
+    TicketModule
   ],
   controllers: [
     AppController
