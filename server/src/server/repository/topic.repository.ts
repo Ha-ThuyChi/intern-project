@@ -64,7 +64,7 @@ export class TopicRepository {
     };
 
     async findByName(topicName: string) {
-        const topic = await this.prismaService.topic.findUnique({
+        const topic = await this.prismaService.topic.findFirst({
             where: {name: topicName}
         });
         return topic;
