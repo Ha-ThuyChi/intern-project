@@ -1,10 +1,14 @@
 import { BadRequestException, ConflictException, Injectable, NotAcceptableException, NotFoundException } from '@nestjs/common';
 import { EventRepository } from 'src/server/repository/event.repository';
 import { EventDTO } from './dto/event.dto';
+import { UserRepository } from '../repository/user.repository';
 
 @Injectable()
 export class EventService {
-  constructor(private eventRepository: EventRepository) {}
+  constructor(
+    private eventRepository: EventRepository,
+    private userRepository: UserRepository
+  ) {}
 
   async findOne(eventId: number) {
     const foundEvent = await this.eventRepository.findOne(eventId);
@@ -16,10 +20,10 @@ export class EventService {
 
   async findByUserId(userId: number, skip: number, limit: number) {
     const foundEvents = await this.eventRepository.findByUserId(userId, skip, limit);
-    if (!foundEvents) {
-        throw new NotFoundException("Event not found.")
+    if (foundEvents.total === 0) {
+      throw new NotFoundException("No event is found.")
     };
-    return {success: true, message: foundEvents}
+    return {success: true, message: foundEvents};
   };
 
   async createEvent(userId: number, data: EventDTO) {
@@ -35,7 +39,7 @@ export class EventService {
       new Date(data.endDate), 
       data.status
     );
-    if (createdEvent) {
+    if (!createdEvent) {
       throw new NotAcceptableException("Cannot create a new event.");
     };
     return {success: true, message: "A new event is created."}
