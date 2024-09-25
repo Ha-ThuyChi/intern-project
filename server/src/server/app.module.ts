@@ -9,6 +9,7 @@ import { OrganizationModule } from './organization/organization.module';
 import { SessionModule } from './session/session.module';
 import { TicketModule } from './ticket/ticket.module';
 import { BlogModule } from './blog/blog.module';
+import { TopicModule } from './topic/topic.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { BlogModule } from './blog/blog.module';
     SessionModule,
     TicketModule,
     BlogModule,
+    TopicModule
   ],
   controllers: [
     AppController
