@@ -68,9 +68,10 @@ model Organization {
 
 // Example: Science, Educaiton, Fashion, etc
 model Topic {
-  id            Int                     @id @default(autoincrement())
-  name          String
-  events        TopicsOfEvents[]
+  id                  Int                     @id @default(autoincrement())
+  name                String                  @unique
+  numberOfEvents      Int                     @default(0)
+  events              TopicsOfEvents[]
 }
 
 model TopicsOfEvents {
