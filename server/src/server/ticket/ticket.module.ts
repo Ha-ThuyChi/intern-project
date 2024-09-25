@@ -7,7 +7,7 @@ import { EventRepository } from "../repository/event.repository";
 
 @Module({
     imports: [PrismaModule],
+    controllers: [TicketController],
     providers: [TicketService, TicketRepository, EventRepository],
-    controllers: [TicketController]
 })
 export class TicketModule {};

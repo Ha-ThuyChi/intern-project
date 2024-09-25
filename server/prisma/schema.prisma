@@ -97,7 +97,9 @@ model Session {
 model Blog {
   id                Int                   @id @default(autoincrement())
   content           String
+  title             String
   authorId          Int
+  createdAt         DateTime              @default(now())
   User              User                  @relation(fields:[authorId], references:[id], onDelete: Cascade)
 }
 

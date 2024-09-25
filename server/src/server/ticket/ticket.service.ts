@@ -15,17 +15,37 @@ export class TicketService {
         if (!foundEvent) {
             throw new NotFoundException("Event does not exist.");
         };
+        const foundTickets = await this.ticketRepository.getTickets(eventId, data.ticketType);
 
-        const createdTicket = await this.ticketRepository.createTicket(
-            eventId,
-            data.ticketType,
-            data.name,
-            data.price,
-            data.quantity,
-            data.isVisible,
-            data.startDate,
-            data.endDate
-        );
+        // Validate the price
+        if (data.ticketType === "FREE" || data.ticketType === "DONATION") {
+            if (data.price !== 0) {
+                throw new NotAcceptableException("Invalid price.")
+            }
+        }
+
+        let createdTicket;
+        if (foundTickets) {
+            // Validate the end date
+            if (foundTickets.endDate <= new Date()) {
+                throw new NotAcceptableException("Cannot create more ticket because the selling is over.")
+            }
+            // If the ticket type exists
+            createdTicket = await this.ticketRepository.updateQuantity(foundTickets.id, foundTickets.quantity+data.quantity)
+        } else {
+            // If ticket type not exist
+            createdTicket = await this.ticketRepository.createTicket(
+                eventId,
+                data.ticketType,
+                data.name,
+                data.price,
+                data.quantity,
+                data.isVisible,
+                data.startDate,
+                data.endDate
+            );
+        }
+        
 
         if (!createdTicket) {
             return({success: false, message: "Ticket is not created."})
@@ -39,6 +59,35 @@ export class TicketService {
             throw new NotFoundException("Ticket does not exist.")
         };
 
+        // const foundTickets = await this.ticketRepository.getTickets(foundTicket.eventId, data.ticketType);
+
+        // Validate the price
+        if (data.ticketType === "FREE" || data.ticketType === "DONATION") {
+            if (data.price !== 0) {
+                throw new NotAcceptableException("Invalid price.")
+            }
+        }
+
+        // let updatedTicket;
+        // if (foundTickets) {
+        //     // Validate the end date
+        //     if (foundTickets.endDate <= new Date()) {
+        //         throw new NotAcceptableException("Cannot create more ticket because the selling is over.")
+        //     };
+        //     updatedTicket = await this.ticketRepository.updateQuantity(foundTickets.id, foundTickets.quantity+data.quantity);
+        //     await this.ticketRepository.deleteTicket(foundTicket.id);
+        // } else {
+        //     updatedTicket = await this.ticketRepository.updateTicket(
+        //         ticketId,
+        //         data.ticketType,
+        //         data.name,
+        //         data.price,
+        //         data.quantity,
+        //         data.isVisible,
+        //         data.startDate,
+        //         data.endDate
+        //     );
+        // }
         const updatedTicket = await this.ticketRepository.updateTicket(
             ticketId,
             data.ticketType,
@@ -88,7 +137,7 @@ export class TicketService {
             throw new NotAcceptableException("Ticket is being selling now. Cannot delete ticket.")
         };
 
-        const deletedTicket = await this.ticketRepository.deleteTicketType(ticketId);
+        const deletedTicket = await this.ticketRepository.deleteTicket(ticketId);
 
         if (!deletedTicket) {
             return({success: false, message: "Ticket is not deleted."})
