@@ -20,11 +20,11 @@ export class AuthService {
         }
         const isMatch: boolean = bcrypt.compareSync(data.password, foundUser.password);
         if (!isMatch) {
-            throw new BadRequestException('Password does not match');
+            throw new BadRequestException('Password does not match.');
         }
-        const payload = { sub: foundUser.id, email: foundUser.email };
+        const payload = { sub: foundUser.id, userId: foundUser.id };
         const accessToken = await this.jwtService.signAsync(payload);
-        return {success: true, message: {accessToken: accessToken, email: foundUser.email}}
+        return {success: true, message: {accessToken: accessToken, userId: foundUser.id}}
     };
 
     async signUp(data: UserDTO) {
