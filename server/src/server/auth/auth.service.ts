@@ -4,6 +4,7 @@ import { SignInDTO } from './dto/sign-in.dto';
 import * as bcrypt from "bcrypt";
 import { JwtService } from '@nestjs/jwt';
 import { UserRepository } from 'src/server/repository/user.repository';
+import { UserDTO } from '../users/dto/user.dto';
 
 @Injectable()
 export class AuthService {
@@ -26,13 +27,23 @@ export class AuthService {
         return {success: true, message: {accessToken: accessToken, email: foundUser.email}}
     };
 
-    async signUp(data: SignUpDTO) {
+    async signUp(data: UserDTO) {
         const foundUser = await this.userRepository.findOneByEmail(data.email);
         if (foundUser) {
             throw new NotFoundException(`${data.email} is already existed.`)
         }
         const hashedPassword = bcrypt.hashSync(data.password, 10);
-        const createdUser = await this.userRepository.createUser(data.email, hashedPassword, data.name, data.phone);
+        const createdUser = await this.userRepository.createUser(
+            data.email,
+            hashedPassword,
+            data.firstName,
+            data.lastName,
+            data.phone,
+            data.city,
+            data.country,
+            data.dob,
+            data.image
+        );
         if (!createdUser) {
             throw new ConflictException("Cannot sign up.")
         };

@@ -1,7 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsDate, IsEnum, IsNumber, IsOptional, IsString } from "class-validator";
+import { IsBoolean, IsDate, IsEnum, IsNumber, IsOptional, IsString } from "class-validator";
 import { Status } from "src/server/auth/dto/sign-up.dto";
-import { LocationType } from "src/server/enum";
+import { LocationType, Theme } from "src/server/enum";
 
 export class EventDTO {
     @ApiProperty()
@@ -10,7 +10,12 @@ export class EventDTO {
 
     @ApiProperty()
     @IsString()
-    location: string;
+    city: string;
+
+    @ApiProperty()
+    @IsString()
+    country: string;
+
 
     @ApiProperty({enum: [LocationType.OFFLINE, LocationType.ONLINE]})
     locationType: LocationType;
@@ -40,5 +45,22 @@ export class EventDTO {
     @IsOptional()
     organizationId: number;
 
+    @ApiProperty()
+    @IsBoolean()
+    isPublic: boolean;
 
+    @ApiProperty()
+    @IsBoolean()
+    isRequireApproval: boolean;
+
+    @ApiProperty()
+    @IsBoolean()
+    isWaitlist: boolean;
+
+    @ApiProperty()
+    @IsString()
+    timeZone: string;
+
+    @ApiProperty({enum: [Theme.GREEN, Theme.YELLOW, Theme.PINK, Theme.BLACK, Theme.WHITE]})
+    theme: Theme;
 }

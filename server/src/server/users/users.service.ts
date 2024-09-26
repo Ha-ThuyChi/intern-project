@@ -1,5 +1,6 @@
 import { BadRequestException, ConflictException, Injectable, NotAcceptableException } from '@nestjs/common';
 import { UserRepository } from 'src/server/repository/user.repository';
+import { UserDTO } from './dto/user.dto';
 
 @Injectable()
 export class UsersService {
@@ -21,12 +22,22 @@ export class UsersService {
     return {success: true, message: foundUser};
   }
 
-  async createUSer(email: string, password: string, name: string, phone: string) {
-    const foundUser = this.userRepository.findOneByEmail(email);
+  async createUSer(data: UserDTO) {
+    const foundUser = this.userRepository.findOneByEmail(data.email);
     if (foundUser) {
       throw new ConflictException("Email is already existed.")
     }
-    const createdUser = this.userRepository.createUser(email, password, name, phone);
+    const createdUser = this.userRepository.createUser(
+      data.email,
+      data.password,
+      data.firstName,
+      data.lastName,
+      data.phone,
+      data.city,
+      data.country,
+      data.dob,
+      data.image
+    );
     if (!createdUser) {
       throw new ConflictException("Cannot create new user.")
     }

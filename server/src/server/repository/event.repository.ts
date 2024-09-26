@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
-import { LocationType } from "../enum";
+import { LocationType, Theme } from "../enum";
 import { Status } from "../auth/dto/sign-up.dto";
 import { PrismaService } from "src/prisma/prisma.service";
 
@@ -59,13 +59,19 @@ export class EventRepository {
         userId: number, 
         organizationId: number,
         name: string, 
-        location: string, 
+        city: string,
+        country: string,
         locationType: LocationType, 
         description: string, 
         image: string, 
         startDate: Date, 
         endDate: Date, 
-        status: Status
+        status: Status,
+        theme: Theme,
+        timeZone: string,
+        isPublic: boolean,
+        isRequireApproval: boolean,
+        isWaitlist: boolean
     ) {
         if (organizationId) {
             const foundOrganization = await this.prismaService.organization.findUnique({
@@ -81,14 +87,20 @@ export class EventRepository {
             data: {
                 name: name,
                 locationType: locationType,
-                location: location,
+                city: city,
+                country: country,
                 image: image,
                 description: description,
                 startDate: startDate,
                 endDate: endDate,
                 status: status,
                 organizationId: organizationId,
-                userId: userId
+                userId: userId,
+                theme: theme,
+                timeZone: timeZone,
+                isPublic: isPublic,
+                isRequireApproval: isRequireApproval,
+                isWaitlist: isWaitlist
             }
         });
         return createdEvent;
@@ -106,7 +118,7 @@ export class EventRepository {
         return updatedEvent;
     }
 
-    async getEvents(start: number, limit: number) {
+    async getAllEvents(start: number, limit: number) {
         const skip = (start - 1)*limit;
         const [foundEvents, total] = await Promise.all([
             await this.prismaService.event.findMany({
@@ -132,5 +144,51 @@ export class EventRepository {
             page: start,
             maxPage: Math.ceil(Number(total) / Number(limit)),
         };
+    };
+
+    async getForYouEvents(userId: number, start: number, limit: number) {
+        const skip = (start - 1)*limit;
+        
+        const events = await this.prismaService.userFavouriteTopic.findMany({
+            where: {
+                userId: userId
+            },
+            include: {
+                topic: {
+                    include: {
+                        events: {
+                            include: {
+                                event: true
+                            }
+                        }
+                    }
+                }
+            },
+            skip: skip,
+            take: limit,
+        });
+        let counts = await this.prismaService.userFavouriteTopic.findMany({
+            where: {
+                userId: userId
+            },
+            include: {
+                topic: {
+                    include: {
+                        _count: {
+                            select: {events: true}
+                        }
+                    }
+                }
+            },
+        });
+        console.log(counts)
+        return {
+            list: events,
+            // total: total,
+            limit: limit,
+            page: start,
+            // maxPage: Math.ceil(Number(total) / Number(limit)),
+        }; 
     }
+
 }

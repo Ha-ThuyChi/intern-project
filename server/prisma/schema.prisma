@@ -40,8 +40,8 @@ model User {
 model UserFavouriteTopic {
   userId                Int
   topicId               Int
-  User                  User            @relation(fields: [userId], references: [id])
-  Topic                 Topic           @relation(fields: [topicId], references: [id])
+  user                  User            @relation(fields: [userId], references: [id])
+  topic                 Topic           @relation(fields: [topicId], references: [id])
 
   @@unique([userId, topicId])
 }
@@ -49,8 +49,8 @@ model UserFavouriteTopic {
 model UserFavouriteEvent {
   userId                Int
   eventId               Int
-  User                  User            @relation(fields: [userId], references: [id])
-  Event                 Event           @relation(fields: [eventId], references: [id])
+  user                  User            @relation(fields: [userId], references: [id])
+  event                 Event           @relation(fields: [eventId], references: [id])
 
   @@unique([userId, eventId])
 }
@@ -91,7 +91,7 @@ model FrequentlyAskedQuestion {
   evnetId                 Int
   question                String
   answer                  String
-  events                  Event                   @relation(fields: [evnetId], references: [id])                
+  event                  Event                   @relation(fields: [evnetId], references: [id])                
 }
 
 model EventManager {
@@ -125,8 +125,8 @@ model Topic {
 model TopicsOfEvents {
   topicId         Int
   eventId         Int
-  Topic           Topic                 @relation(fields: [topicId], references: [id], onDelete: Cascade)
-  Event           Event                 @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  topic           Topic                 @relation(fields: [topicId], references: [id], onDelete: Cascade)
+  event           Event                 @relation(fields: [eventId], references: [id], onDelete: Cascade)
 
   @@id([topicId, eventId])
 }
