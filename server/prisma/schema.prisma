@@ -42,7 +42,7 @@ model UserFavouriteTopic {
   userId                Int
   topicId               Int
   user                  User                     @relation(fields: [userId], references: [id])
-  topic                 TopicsOfEvents           @relation(fields: [topicId], references: [topicId])
+  topic                 Topic                   @relation(fields: [topicId], references: [id])
 
   @@unique([userId, topicId])
 }
