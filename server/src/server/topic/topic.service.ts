@@ -31,7 +31,7 @@ export class TopicService {
         return {success: true, message: topics}
     };
 
-    async addTopic(topicId: number, eventId: number) {
+    async addTopicToEvent(topicId: number, eventId: number) {
         const foundTopic = await this.topicRepository.findByTopicId(topicId);
         if (!foundTopic) {
             throw new NotFoundException("Topic does not exist.")
@@ -46,10 +46,22 @@ export class TopicService {
         if (foundTopicEvent) {
             throw new NotAcceptableException(`Topic ${foundTopic.name} is already added to event ${foundEvent.name}.`)
         }
-        const addedTopic = await this.topicRepository.addTopic(topicId, eventId);
+        const addedTopic = await this.topicRepository.addTopicToEvent(topicId, eventId);
         if (!addedTopic) {
             return {success: false, message: `Cannot add topic ${foundTopic.name} to event ${foundEvent.name}.`}
         };
         return {success: true, message: `Topic ${foundTopic.name} is added to event ${foundEvent.name}.`}
     };
+
+    async addFavouriteTopic(userId: number, topicId: number) {
+        const foundTopic = this.topicRepository.findByTopicId(topicId);
+        if (!foundTopic) {
+            throw new NotFoundException("Topic not found.")
+        }
+        const addedTopic = this.topicRepository.addFavouriteTopic(userId, topicId);
+        if (!addedTopic) {
+            return {success: false, message: "Cannot choose this topic."}
+        }
+        return {success: true, message: "Topic is chosen."}
+    }
 }
