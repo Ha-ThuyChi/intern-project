@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestj
 import { AuthService } from './auth.service';
 import { SignInDTO } from './dto/sign-in.dto';
 import { SignUpDTO } from './dto/sign-up.dto';
+import { UserDTO } from '../users/dto/user.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -16,7 +17,7 @@ export class AuthController {
 
   @Post('sign-up')
   signUp(
-    @Body() data: SignUpDTO
+    @Body() data: UserDTO
   ) {
     return this.authService.signUp(data);
   }

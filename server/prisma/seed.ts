@@ -8,10 +8,10 @@ async function main() {
     await prisma.organization.deleteMany({});
     const user = await prisma.user.createMany({
         data: [
-            {name: 'Anna1', email: 'anna1@gmail.com', password: 'pwd1', phone: '0922222221', status: 'ACTIVE'},
-            {name: 'Anna2', email: 'anna2@gmail.com', password: 'pwd2', phone: '0922222222', status: 'ACTIVE'},
-            {name: 'Anna3', email: 'anna3@gmail.com', password: 'pwd3', phone: '0922222223', status: 'ACTIVE'},
-            {name: 'Anna4', email: 'anna4@gmail.com', password: 'pwd3', phone: '0922222223'},
+            {firstName: 'Anna1', lastName: "Wilson", email: 'anna1@gmail.com', password: 'pwd1', phone: '0922222221', status: 'ACTIVE', city: "Hanoi", country: "Vietnam"},
+            {firstName: 'Anna1', lastName: "Wilson", email: 'anna2@gmail.com', password: 'pwd1', phone: '0922222221', status: 'ACTIVE', city: "Hanoi", country: "Vietnam"},
+            {firstName: 'Anna1', lastName: "Wilson", email: 'anna3@gmail.com', password: 'pwd1', phone: '0922222221', status: 'ACTIVE', city: "Hanoi", country: "Vietnam"},
+            {firstName: 'Anna1', lastName: "Wilson", email: 'anna4@gmail.com', password: 'pwd1', phone: '0922222221', status: 'ACTIVE', city: "Hanoi", country: "Vietnam"},
         ]
     });
     const user1 = await prisma.user.findUnique({
@@ -30,16 +30,86 @@ async function main() {
     })
     const event = await prisma.event.createMany({
         data: [
-            {name: 'Event1', locationType: 'ONLINE', location: 'Microsoft Teams', description: 'description1', startDate: new Date(2023, 6, 1), endDate: new Date(2023, 6, 2), status: 'ACTIVE',userId: user1.id},
-            {name: 'Event2', locationType: 'ONLINE', location: 'Microsoft Teams', description: 'description1', startDate: new Date(2023, 6, 1), endDate: new Date(2023, 6, 2), status: 'ACTIVE', userId: user1.id},
-            {name: 'Event2', locationType: 'ONLINE', location: 'Microsoft Teams', description: 'description1', startDate: new Date(2023, 6, 1), endDate: new Date(2023, 6, 2), status: 'ACTIVE', userId: user1.id},
-            {name: 'Event2', locationType: 'ONLINE', location: 'Microsoft Teams', description: 'description1', startDate: new Date(2023, 6, 1), endDate: new Date(2023, 6, 2), status: 'ACTIVE', userId: user1.id},
-            {name: 'Event2', locationType: 'ONLINE', location: 'Microsoft Teams', description: 'description1', startDate: new Date(2023, 6, 1), endDate: new Date(2023, 6, 2), status: 'ACTIVE', userId: user1.id},
-            {name: 'Event2', locationType: 'ONLINE', location: 'Microsoft Teams', description: 'description1', startDate: new Date(2023, 6, 1), endDate: new Date(2023, 6, 2), status: 'ACTIVE', userId: user1.id},
-            {name: 'Event2', locationType: 'ONLINE', location: 'Microsoft Teams', description: 'description1', startDate: new Date(2023, 6, 1), endDate: new Date(2023, 6, 2), status: 'ACTIVE', userId: user1.id},
-            {name: 'Event2', locationType: 'ONLINE', location: 'Microsoft Teams', description: 'description1', startDate: new Date(2023, 6, 1), endDate: new Date(2023, 6, 2), status: 'ACTIVE', userId: user1.id},
-            {name: 'Event2', locationType: 'ONLINE', location: 'Microsoft Teams', description: 'description1', startDate: new Date(2023, 6, 1), endDate: new Date(2023, 6, 2), status: 'ACTIVE', userId: user1.id},
-            {name: 'Event2', locationType: 'ONLINE', location: 'Microsoft Teams', description: 'description1', startDate: new Date(2023, 6, 1), endDate: new Date(2023, 6, 2), status: 'ACTIVE', userId: user1.id},
+            {
+              name: 'Event1', locationType: 'ONLINE', city: 'Microsoft Teams', description: 'description1', startDate: new Date(2023, 6, 1), endDate: new Date(2023, 6, 2), status: 'ACTIVE', userId: user1.id,
+              country: "",
+              isRequireApproval: false,
+              isWaitlist: false,
+              timeZone: "",
+              theme: "BLACK"
+            },
+            {
+              name: 'Event2', locationType: 'ONLINE', city: 'Microsoft Teams', description: 'description1', startDate: new Date(2023, 6, 1), endDate: new Date(2023, 6, 2), status: 'ACTIVE', userId: user1.id,
+              country: "",
+              isRequireApproval: false,
+              isWaitlist: false,
+              timeZone: "",
+              theme: "BLACK"
+            },
+            {
+              name: 'Event2', locationType: 'ONLINE', city: 'Microsoft Teams', description: 'description1', startDate: new Date(2023, 6, 1), endDate: new Date(2023, 6, 2), status: 'ACTIVE', userId: user1.id,
+              country: "",
+              isRequireApproval: false,
+              isWaitlist: false,
+              timeZone: "",
+              theme: "BLACK"
+            },
+            {
+              name: 'Event2', locationType: 'ONLINE', city: 'Microsoft Teams', description: 'description1', startDate: new Date(2023, 6, 1), endDate: new Date(2023, 6, 2), status: 'ACTIVE', userId: user1.id,
+              country: "",
+              isRequireApproval: false,
+              isWaitlist: false,
+              timeZone: "",
+              theme: "BLACK"
+            },
+            {
+              name: 'Event2', locationType: 'ONLINE', city: 'Microsoft Teams', description: 'description1', startDate: new Date(2023, 6, 1), endDate: new Date(2023, 6, 2), status: 'ACTIVE', userId: user1.id,
+              country: "",
+              isRequireApproval: false,
+              isWaitlist: false,
+              timeZone: "",
+              theme: "BLACK"
+            },
+            {
+              name: 'Event2', locationType: 'ONLINE', city: 'Microsoft Teams', description: 'description1', startDate: new Date(2023, 6, 1), endDate: new Date(2023, 6, 2), status: 'ACTIVE', userId: user1.id,
+              country: "",
+              isRequireApproval: false,
+              isWaitlist: false,
+              timeZone: "",
+              theme: "BLACK"
+            },
+            {
+              name: 'Event2', locationType: 'ONLINE', city: 'Microsoft Teams', description: 'description1', startDate: new Date(2023, 6, 1), endDate: new Date(2023, 6, 2), status: 'ACTIVE', userId: user1.id,
+              country: "",
+              isRequireApproval: false,
+              isWaitlist: false,
+              timeZone: "",
+              theme: "BLACK"
+            },
+            {
+              name: 'Event2', locationType: 'ONLINE', city: 'Microsoft Teams', description: 'description1', startDate: new Date(2023, 6, 1), endDate: new Date(2023, 6, 2), status: 'ACTIVE', userId: user1.id,
+              country: "",
+              isRequireApproval: false,
+              isWaitlist: false,
+              timeZone: "",
+              theme: "BLACK"
+            },
+            {
+              name: 'Event2', locationType: 'ONLINE', city: 'Microsoft Teams', description: 'description1', startDate: new Date(2023, 6, 1), endDate: new Date(2023, 6, 2), status: 'ACTIVE', userId: user1.id,
+              country: "",
+              isRequireApproval: false,
+              isWaitlist: false,
+              timeZone: "",
+              theme: "BLACK"
+            },
+            {
+              name: 'Event2', locationType: 'ONLINE', city: 'Microsoft Teams', description: 'description1', startDate: new Date(2023, 6, 1), endDate: new Date(2023, 6, 2), status: 'ACTIVE', userId: user1.id,
+              country: "",
+              isRequireApproval: false,
+              isWaitlist: false,
+              timeZone: "",
+              theme: "BLACK"
+            },
         ]
     });
     console.log(user, event, organization)
