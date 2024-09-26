@@ -65,8 +65,8 @@ export class EventService {
     return ({success: true, message: foundEvents});
   };
 
-  async getForYouEvents(userId: number, start: number, limit: number) {
-    const foundEvents = await this.eventRepository.getForYouEvents(userId, start, limit);
+  async getForYouEvents(userId: number) {
+    const foundEvents = await this.eventRepository.getForYouEvents(userId);
     return ({success: true, message: foundEvents});
   }
 }

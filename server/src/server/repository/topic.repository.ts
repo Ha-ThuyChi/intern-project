@@ -36,7 +36,7 @@ export class TopicRepository {
         };
     };
 
-    async addTopic(topicId: number, eventId: number) {
+    async addTopicToEvent(topicId: number, eventId: number) {
         const addedTopic = await this.prismaService.topicsOfEvents.create({
             data: {
                 topicId: topicId,
@@ -78,5 +78,16 @@ export class TopicRepository {
             }
         });
         return result;
+    };
+
+    // favourite topics for users
+    async addFavouriteTopic(userId: number, topicId: number) {
+        const addedTopic = this.prismaService.userFavouriteTopic.create({
+            data: {
+                userId: userId,
+                topicId: topicId
+            }
+        });
+        return addedTopic;
     }
 }

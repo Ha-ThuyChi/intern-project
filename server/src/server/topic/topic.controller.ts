@@ -26,6 +26,14 @@ export class TopicController {
     addTopic(
         @Query() data: TopicEventDTO
     ) {
-        return this.topicService.addTopic(Number(data.topicId), Number(data.eventId));
+        return this.topicService.addTopicToEvent(Number(data.topicId), Number(data.eventId));
+    };
+
+    @Post(":topicId/favourite-topic/:userId")
+    addFavouriteTopic(
+        @Param("topicId") topicId: number,
+        @Param("userId") userId: number
+    ) {
+        return this.topicService.addFavouriteTopic(Number(userId), Number(topicId));
     }
 }
