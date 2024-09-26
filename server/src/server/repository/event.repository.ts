@@ -172,10 +172,8 @@ export class EventRepository {
                     }
                 }
             },
-            take: 10,
         });
-        
-        return events; 
+        return events[0].topic; 
     }
 
 }
