@@ -2,6 +2,7 @@ import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from "@nestj
 import { BlogService } from "./blog.service";
 import { BlogDTO } from "./dto/blog.dto";
 import { PaginationDTO } from "../pagination.dto";
+import { Public } from "src/setMetaData";
 
 @Controller("blogs")
 export class BlogController {
@@ -15,6 +16,7 @@ export class BlogController {
         return this.blogService.createBlog(Number(userId), data);
     };
 
+    @Public()
     @Get("blog/:blogId")
     getBlogByBlogId(
         @Param("blogId") blogId: number,
