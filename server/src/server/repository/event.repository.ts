@@ -173,7 +173,7 @@ export class EventRepository {
                 }
             },
         });
-        return events[0].topic; 
+        return events;
     }
 
 }

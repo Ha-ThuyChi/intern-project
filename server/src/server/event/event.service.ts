@@ -67,6 +67,6 @@ export class EventService {
 
   async getForYouEvents(userId: number) {
     const foundEvents = await this.eventRepository.getForYouEvents(userId);
-    return ({success: true, message: foundEvents});
+    return {success: true, message: foundEvents};
   }
 }
