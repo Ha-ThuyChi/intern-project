@@ -2,6 +2,7 @@ import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from "@nestj
 import { SessionDTO } from "./dto/session.dto";
 import { SessionService } from "./session.service";
 import { PaginationDTO } from "src/server/pagination.dto";
+import { Public } from "src/setMetaData";
 
 @Controller("sessions")
 export class SessionController {
@@ -15,6 +16,7 @@ export class SessionController {
         return this.sessionService.createSession(Number(eventId), data)
     };
 
+    @Public()
     @Get(":sessionId")
     getSessionBySessiontId(
         @Param("sessionId") sessionId: number

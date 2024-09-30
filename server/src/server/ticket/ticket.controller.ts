@@ -1,6 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post } from "@nestjs/common";
 import { TicketService } from "./ticket.service";
 import { TicketDTO } from "./dto/ticket.dto";
+import { Public } from "src/setMetaData";
 
 @Controller("tickets")
 export class TicketController {
@@ -22,6 +23,7 @@ export class TicketController {
         return this.ticketService.updateTicket(Number(ticketId), data);
     };
 
+    @Public()
     @Get(":eventId") 
     getTicketByEventId(
         @Param("eventId") eventId: number
@@ -29,6 +31,7 @@ export class TicketController {
         return this.ticketService.getTicketByEventId(Number(eventId));
     };
 
+    @Public()
     @Get("ticket/:ticketId") 
     getTicketByTicketId(
         @Param("ticketId") ticketId: number
