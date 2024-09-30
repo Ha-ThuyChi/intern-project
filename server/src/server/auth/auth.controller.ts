@@ -5,6 +5,7 @@ import { SignUpDTO } from './dto/sign-up.dto';
 import { AuthGuard } from './auth.guard';
 import { ApiBearerAuth } from '@nestjs/swagger';
 import { Public } from 'src/setMetaData';
+import { UserDTO } from '../users/dto/user.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -21,7 +22,7 @@ export class AuthController {
   @Public()
   @Post('sign-up')
   signUp(
-    @Body() data: SignUpDTO
+    @Body() data: UserDTO
   ) {
     return this.authService.signUp(data);
   }

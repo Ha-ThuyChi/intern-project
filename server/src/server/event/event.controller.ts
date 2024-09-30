@@ -30,7 +30,7 @@ export class EventController {
   getEvents(
     @Query() data: PaginationDTO
   ) {
-    return this.eventService.getEvents(Number(data.page), Number(data.limit));
+    return this.eventService.getAllEvents(Number(data.page), Number(data.limit));
   }
 
   @Post("event/:userId")
@@ -47,5 +47,13 @@ export class EventController {
     @Param("eventId") eventId: number,
   ) {
     return this.eventService.disableEvent(Number(eventId));
+  };
+
+  @Get("for-you/:userId")
+  getForYouEvents(
+    @Param("userId") userId: number,
+    @Query() data: PaginationDTO
+  ) {
+    return this.eventService.getForYouEvents(Number(userId), Number(data.page), Number(data.limit));
   }
 }

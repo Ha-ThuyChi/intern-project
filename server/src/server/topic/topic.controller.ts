@@ -3,7 +3,6 @@ import { TopicService } from "./topic.service";
 import { TopicDTO } from "./dto/topic.dto";
 import { PaginationDTO } from "../pagination.dto";
 import { TopicEventDTO } from "./dto/topicEvent.dto";
-import { Public } from "src/setMetaData";
 
 @Controller("topics")
 export class TopicController {
@@ -16,7 +15,6 @@ export class TopicController {
         return this.topicService.create(data);
     };
 
-    @Public()
     @Get("")
     getAll(
         @Query() data: PaginationDTO
@@ -28,14 +26,6 @@ export class TopicController {
     addTopic(
         @Query() data: TopicEventDTO
     ) {
-        return this.topicService.addTopicToEvent(Number(data.topicId), Number(data.eventId));
-    };
-
-    @Post(":topicId/favourite-topic/:userId")
-    addFavouriteTopic(
-        @Param("topicId") topicId: number,
-        @Param("userId") userId: number
-    ) {
-        return this.topicService.addFavouriteTopic(Number(userId), Number(topicId));
+        return this.topicService.addTopic(Number(data.topicId), Number(data.eventId));
     }
 }

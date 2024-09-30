@@ -28,16 +28,23 @@ export class EventService {
 
   async createEvent(userId: number, data: EventDTO) {
     const createdEvent = await this.eventRepository.createEvent(
-      userId, 
-      data.organizationId, 
-      data.name, 
-      data.location, 
-      data.locationType, 
-      data.description, 
-      data.image, 
-      new Date(data.startDate), 
-      new Date(data.endDate), 
-      data.status
+      userId,
+      data.organizationId,
+      data.name,
+      data.city,
+      data.country,
+      data.locationType,
+      data.description,
+      data.image,
+      data.startDate,
+      data.endDate,
+      data.status,
+      data.theme, 
+      data.timeZone,
+      data.isPublic,
+      data.isRequireApproval,
+      data.isWaitlist
+
     );
     if (!createdEvent) {
       throw new NotAcceptableException("Cannot create a new event.");
@@ -53,8 +60,13 @@ export class EventService {
     return {success: true, message: "Event is updated."}
   };
 
-  async getEvents(start: number, limit: number) {
-    const foundEvents = await this.eventRepository.getEvents(start, limit);
+  async getAllEvents(start: number, limit: number) {
+    const foundEvents = await this.eventRepository.getAllEvents(start, limit);
+    return ({success: true, message: foundEvents});
+  };
+
+  async getForYouEvents(userId: number, start: number, limit: number) {
+    const foundEvents = await this.eventRepository.getForYouEvents(userId, start, limit);
     return ({success: true, message: foundEvents});
   }
 }

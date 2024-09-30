@@ -14,13 +14,28 @@ export class UserRepository {
         return foundUser;
     };
 
-    async createUser(email: string, password: string, name: string, phone: string) {
+    async createUser(
+        email: string, 
+        password: string, 
+        firstName: string, 
+        lastName: string, 
+        phone: string, 
+        city: string, 
+        country: string,
+        dob: Date,
+        image: string
+    ) {
         const createdUser = await this.prismaService.user.create({
             data: {
                 email: email,
                 password: password,
-                name: name,
-                phone: phone
+                firstName: firstName,
+                lastName: lastName,
+                phone: phone,
+                city: city,
+                country: country,
+                dob: dob,
+                image: image
             }
         });
         return createdUser;
