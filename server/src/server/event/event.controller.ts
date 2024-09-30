@@ -51,7 +51,7 @@ export class EventController {
 
   @Get("for-you/:userId")
   getForYouEvents(
-    @Param("userId") userId: number,
+    @Param("userId") userId: number
   ) {
     return this.eventService.getForYouEvents(Number(userId));
   }

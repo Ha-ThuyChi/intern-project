@@ -149,15 +149,24 @@ export class EventRepository {
     async getForYouEvents(userId: number) {
         
         const events = await this.prismaService.userFavouriteTopic.findMany({
-            where: {
-                userId: userId
-            },
-            include: {
+            where: { userId: userId},
+            select: {
                 topic: {
-                    include: {
+                    select: {
+                        name: true,
                         events: {
-                            include: {
-                                event: true
+                            select: {
+                                event: {
+                                    select: {
+                                        id: true,
+                                        name: true,
+                                        image: true,
+                                        startDate: true,
+                                        endDate:true,
+                                        isRequireApproval: true,
+                                    },
+                                    
+                                }
                             }
                         }
                     }
