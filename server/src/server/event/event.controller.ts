@@ -52,8 +52,7 @@ export class EventController {
   @Get("for-you/:userId")
   getForYouEvents(
     @Param("userId") userId: number,
-    @Query() data: PaginationDTO
   ) {
-    return this.eventService.getForYouEvents(Number(userId), Number(data.page), Number(data.limit));
+    return this.eventService.getForYouEvents(Number(userId));
   }
 }

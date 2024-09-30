@@ -24,7 +24,7 @@ export class AuthService {
         }
         const payload = { sub: foundUser.id, email: foundUser.email };
         const accessToken = await this.jwtService.signAsync(payload);
-        return {success: true, message: {accessToken: accessToken, email: foundUser.email}}
+        return {success: true, message: {accessToken: accessToken, userId: foundUser.id}}
     };
 
     async signUp(data: UserDTO) {

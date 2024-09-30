@@ -146,8 +146,7 @@ export class EventRepository {
         };
     };
 
-    async getForYouEvents(userId: number, start: number, limit: number) {
-        const skip = (start - 1)*limit;
+    async getForYouEvents(userId: number) {
         
         const events = await this.prismaService.userFavouriteTopic.findMany({
             where: {
@@ -164,31 +163,8 @@ export class EventRepository {
                     }
                 }
             },
-            skip: skip,
-            take: limit,
         });
-        let counts = await this.prismaService.userFavouriteTopic.findMany({
-            where: {
-                userId: userId
-            },
-            include: {
-                topic: {
-                    include: {
-                        _count: {
-                            select: {events: true}
-                        }
-                    }
-                }
-            },
-        });
-        console.log(counts)
-        return {
-            list: events,
-            // total: total,
-            limit: limit,
-            page: start,
-            // maxPage: Math.ceil(Number(total) / Number(limit)),
-        }; 
+        return events;
     }
 
 }
