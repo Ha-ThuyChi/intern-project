@@ -54,11 +54,15 @@ export class TopicService {
     };
 
     async addFavouriteTopic(userId: number, topicId: number) {
-        const foundTopic = this.topicRepository.findByTopicId(topicId);
+        const foundTopic = await this.topicRepository.findByTopicId(topicId);
         if (!foundTopic) {
             throw new NotFoundException("Topic not found.")
+        };
+        const foundFavoriteTopic = await this.topicRepository.findFavoriteTopic(userId, topicId);
+        if (foundFavoriteTopic) {
+            throw new NotAcceptableException(`Topic ${foundTopic.name} is already added.`)
         }
-        const addedTopic = this.topicRepository.addFavouriteTopic(userId, topicId);
+        const addedTopic = await this.topicRepository.addFavouriteTopic(userId, topicId);
         if (!addedTopic) {
             return {success: false, message: "Cannot choose this topic."}
         }

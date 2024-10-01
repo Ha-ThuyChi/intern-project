@@ -162,8 +162,9 @@ export class EventRepository {
                                         name: true,
                                         image: true,
                                         startDate: true,
-                                        endDate:true,
+                                        endDate: true,
                                         isRequireApproval: true,
+                                        description: true,
                                     },
                                     
                                 }
