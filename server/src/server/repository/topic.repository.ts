@@ -89,5 +89,16 @@ export class TopicRepository {
             }
         });
         return addedTopic;
+    };
+
+    // find already added favourite topics of users
+    async findFavoriteTopic(userId: number, topicId: number) {
+        const addedTopic = this.prismaService.userFavouriteTopic.findFirst({
+            where: {
+                userId: userId,
+                topicId: topicId
+            }
+        });
+        return addedTopic;
     }
 }
