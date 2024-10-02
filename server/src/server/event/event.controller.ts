@@ -7,11 +7,12 @@ import { PaginationDTO } from 'src/server/pagination.dto';
 export class EventController {
   constructor(private readonly eventService: EventService) {}
 
-  @Get("event/:eventId")
+  @Public()
+  @Get("find-event/:eventId")
   getEventByEventId(
     @Param("eventId") eventId: number
   ) {
-    return this.eventService.findOne(Number(eventId));
+    return this.eventService.findByEventId(Number(eventId));
   };
 
   @Get(":userId")
