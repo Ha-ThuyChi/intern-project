@@ -2,6 +2,8 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestj
 import { EventService } from './event.service';
 import { EventDTO } from './dto/event.dto';
 import { PaginationDTO } from 'src/server/pagination.dto';
+import { Public } from 'src/setMetaData';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
 @Controller('events')
 export class EventController {
@@ -23,6 +25,7 @@ export class EventController {
     return this.eventService.findByUserId(Number(userId), Number(data.page), Number(data.limit));
   }
 
+  @Public()
   @Get("")
   getEvents(
     @Query() data: PaginationDTO
@@ -31,6 +34,7 @@ export class EventController {
   }
 
   @Post("event/:userId")
+  @ApiBearerAuth()
   createEvent(
     @Param("userId") userId: number,
     @Body() data: EventDTO
@@ -47,9 +51,8 @@ export class EventController {
 
   @Get("for-you/:userId")
   getForYouEvents(
-    @Param("userId") userId: number,
-    @Query() data: PaginationDTO
+    @Param("userId") userId: number
   ) {
-    return this.eventService.getForYouEvents(Number(userId), Number(data.page), Number(data.limit));
+    return this.eventService.getForYouEvents(Number(userId));
   }
 }
