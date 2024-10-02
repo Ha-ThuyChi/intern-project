@@ -61,11 +61,13 @@ export class EventRepository {
         name: string, 
         city: string,
         country: string,
+        platform: string,
+        link: string,
         locationType: LocationType, 
         description: string, 
         image: string, 
-        startDate: Date, 
-        endDate: Date, 
+        startDate: string, 
+        endDate: string, 
         status: Status,
         theme: Theme,
         timeZone: string,
@@ -83,12 +85,15 @@ export class EventRepository {
                 throw new NotFoundException("Organization not found.")
             }
         };
+        
         const createdEvent = await this.prismaService.event.create({
             data: {
                 name: name,
                 locationType: locationType,
                 city: city,
                 country: country,
+                platform: platform,
+                link: link,
                 image: image,
                 description: description,
                 startDate: startDate,

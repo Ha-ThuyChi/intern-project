@@ -10,7 +10,7 @@ export class EventService {
     private userRepository: UserRepository
   ) {}
 
-  async findOne(eventId: number) {
+  async findByEventId(eventId: number) {
     const foundEvent = await this.eventRepository.findOne(eventId);
     if (!foundEvent) {
       throw new NotAcceptableException("Event does not exist.")
@@ -33,6 +33,8 @@ export class EventService {
       data.name,
       data.city,
       data.country,
+      data.platform,
+      data.link,
       data.locationType,
       data.description,
       data.image,

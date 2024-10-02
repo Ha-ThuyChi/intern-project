@@ -10,10 +10,12 @@ export class EventDTO {
 
     @ApiProperty()
     @IsString()
+    @IsOptional()
     city: string;
 
     @ApiProperty()
     @IsString()
+    @IsOptional()
     country: string;
 
 
@@ -30,12 +32,12 @@ export class EventDTO {
     description: string;
 
     @ApiProperty()
-    @IsDate()
-    startDate: Date;
+    @IsString()
+    startDate: string;
 
     @ApiProperty()
-    @IsDate()
-    endDate: Date;
+    @IsString()
+    endDate: string;
 
     @ApiProperty({enum: ["ACTIVE", "DISABLE", "PENDING"]})
     status: Status;
@@ -59,8 +61,19 @@ export class EventDTO {
 
     @ApiProperty()
     @IsString()
+    @IsOptional()
     timeZone: string;
 
-    @ApiProperty({enum: [Theme.GREEN, Theme.YELLOW, Theme.PINK, Theme.BLACK, Theme.WHITE]})
+    @ApiProperty()
+    @IsString()
+    @IsOptional()
+    platform: string;
+
+    @ApiProperty()
+    @IsString()
+    @IsOptional()
+    link: string;
+
+    @ApiProperty({enum: [Theme.GREEN, Theme.YELLOW, Theme.PINK, Theme.BLACK, Theme.WHITE, Theme.RED]})
     theme: Theme;
 }
