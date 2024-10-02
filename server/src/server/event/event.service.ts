@@ -42,7 +42,6 @@ export class EventService {
       data.endDate,
       data.status,
       data.theme, 
-      data.timeZone,
       data.isPublic,
       data.isRequireApproval,
       data.isWaitlist
@@ -70,5 +69,39 @@ export class EventService {
   async getForYouEvents(userId: number) {
     const foundEvents = await this.eventRepository.getForYouEvents(userId);
     return {success: true, message: foundEvents};
+  }
+
+  async editEvent(userId: number, data: EventDTO) {
+    const updatedEvent = await this.eventRepository.editEvent(
+      userId,
+      data.organizationId,
+      data.name,
+      data.city,
+      data.country,
+      data.platform,
+      data.link,
+      data.locationType,
+      data.description,
+      data.image,
+      data.startDate,
+      data.endDate,
+      data.status,
+      data.theme,
+      data.isPublic,
+      data.isRequireApproval,
+      data.isWaitlist
+    );
+    if (!updatedEvent) {
+      throw new NotAcceptableException("Cannot update event.")
+    }
+    return {success: true, message: "Event is updated successfully."};
+  };
+
+  async ableEvent(eventId: number) {
+    const updatedEvent = await this.eventRepository.ableEvent(eventId);
+    if (!updatedEvent) {
+      throw new NotAcceptableException("Cannot update event.")
+    };
+    return {success: true, message: "Event is updated successfully."};
   }
 }
