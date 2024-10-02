@@ -62,11 +62,6 @@ export class EventDTO {
     @ApiProperty()
     @IsString()
     @IsOptional()
-    timeZone: string;
-
-    @ApiProperty()
-    @IsString()
-    @IsOptional()
     platform: string;
 
     @ApiProperty()

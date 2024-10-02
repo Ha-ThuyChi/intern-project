@@ -65,8 +65,8 @@ model Event {
   country                 String
   image                   String?
   description             String          
-  startDate               DateTime
-  endDate                 DateTime
+  startDate               String
+  endDate                 String
   status                  Status
   userId                  Int
   organizationId          Int?                
@@ -75,7 +75,6 @@ model Event {
   isPublic                Boolean                @default(true)
   isRequireApproval       Boolean
   isWaitlist              Boolean
-  timeZone                String
   theme                   Theme
   Organization            Organization?          @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   User                    User                   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
