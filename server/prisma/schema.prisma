@@ -61,8 +61,10 @@ model Event {
   id                      Int                   @id @default(autoincrement())
   name                    String
   locationType            LocationType
-  city                    String
-  country                 String
+  city                    String?
+  country                 String?
+  platform                String?
+  link                    String?
   image                   String?
   description             String          
   startDate               DateTime
