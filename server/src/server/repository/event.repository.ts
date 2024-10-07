@@ -102,7 +102,7 @@ export class EventRepository {
                 organizationId: organizationId,
                 userId: userId,
                 theme: theme,
-                timeZone: timeZone,
+                // timeZone: timeZone,
                 isPublic: isPublic,
                 isRequireApproval: isRequireApproval,
                 isWaitlist: isWaitlist
