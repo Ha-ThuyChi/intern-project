@@ -237,6 +237,16 @@ export class EventRepository {
             }
         });
         return updatedEvent;
+    };
+
+    async getEventByUserId(userId: number) {
+        const foundEvent = await this.prismaService.event.findFirst({
+            where: {
+                userId: userId,
+
+            }
+        });
+        return foundEvent;
     }
 
 }

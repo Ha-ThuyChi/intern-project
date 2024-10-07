@@ -8,7 +8,8 @@ export class UserRepository {
     async findOneByEmail(email: string) {
         const foundUser = await this.prismaService.user.findUnique({
             where: {
-                email: email
+                email: email,
+                status: "ACTIVE"
             }
         });
         return foundUser;
@@ -23,7 +24,8 @@ export class UserRepository {
         city: string, 
         country: string,
         dob: Date,
-        image: string
+        image: string,
+        isConnectGoogle: boolean
     ) {
         const createdUser = await this.prismaService.user.create({
             data: {
@@ -35,7 +37,8 @@ export class UserRepository {
                 city: city,
                 country: country,
                 dob: dob,
-                image: image
+                image: image,
+                isConnectGoogle: isConnectGoogle
             }
         });
         return createdUser;
@@ -44,7 +47,60 @@ export class UserRepository {
     async findOne(userId: number) {
         const foundUser = await this.prismaService.user.findFirst({
             where: {
+                id: userId,
+                OR: [
+                    {
+                        status: "DISABLE"
+                    }, {
+                        status: "PENDING"
+                    }
+                ]
+            }
+        });
+        return foundUser;
+    };
+
+    async disableAccount(userId: number) {
+        const updatedAccount = await this.prismaService.user.update({
+            data: {
+                status: "PENDING"
+            },
+            where: {
                 id: userId
+            }
+        });
+        return updatedAccount;
+    };
+
+    async editAccount(
+        userId: number,
+        firstName: string,
+        lastName: string, 
+        city: string,
+        country: string,
+        phone: string,
+    ) {
+        const updatedAccount = await this.prismaService.user.update({
+            data: {
+                firstName: firstName,
+                lastName: lastName,
+                city: city,
+                country: country,
+                phone: phone
+            }, 
+            where: {
+                id: userId,
+                status: "ACTIVE"
+            }
+        });
+        return updatedAccount;
+    };
+
+    async findConnectedGoogleUserByEmail(email :string)  {
+        const foundUser = await this.prismaService.user.findFirst({
+            where: {
+                email: email,
+                isConnectGoogle: false
             }
         });
         return foundUser;

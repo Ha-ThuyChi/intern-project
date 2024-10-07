@@ -7,18 +7,20 @@ import { jwtConstants } from './constant';
 import { UsersService } from '../users/users.service';
 import { UserRepository } from '../repository/user.repository';
 import { APP_GUARD } from '@nestjs/core';
-import { AuthGuard } from './auth.guard';
+import { AuthGuardApp } from './auth.guard';
+import { EventRepository } from '../repository/event.repository';
 
 @Module({
   controllers: [AuthController],
   providers: [
     {
       provide: APP_GUARD,
-      useClass: AuthGuard,
+      useClass: AuthGuardApp,
     },
     AuthService, 
     UsersService, 
     UserRepository,
+    EventRepository,
   ],
   imports: [
     PrismaModule,
