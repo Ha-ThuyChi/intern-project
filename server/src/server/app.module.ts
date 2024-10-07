@@ -10,6 +10,7 @@ import { SessionModule } from './session/session.module';
 import { TicketModule } from './ticket/ticket.module';
 import { BlogModule } from './blog/blog.module';
 import { TopicModule } from './topic/topic.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
@@ -21,7 +22,11 @@ import { TopicModule } from './topic/topic.module';
     SessionModule,
     TicketModule,
     BlogModule,
-    TopicModule
+    TopicModule,
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: '.env',
+    }),
   ],
   controllers: [
     AppController
