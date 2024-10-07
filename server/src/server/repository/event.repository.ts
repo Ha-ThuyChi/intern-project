@@ -11,7 +11,7 @@ export class EventRepository {
     async findOne(eventId: number) {
         const foundEvent = await this.prismaService.event.findUnique({
             where: {
-                id: eventId
+                id: eventId,
             }
         });
         return foundEvent;
@@ -31,7 +31,7 @@ export class EventRepository {
         const [events, total] = await Promise.all([
             await this.prismaService.event.findMany({
                 where: {
-                    userId: userId
+                    userId: userId,
                 },
                 orderBy: {
                     createdAt: "desc"
@@ -70,7 +70,6 @@ export class EventRepository {
         endDate: string, 
         status: Status,
         theme: Theme,
-        timeZone: string,
         isPublic: boolean,
         isRequireApproval: boolean,
         isWaitlist: boolean
@@ -128,7 +127,8 @@ export class EventRepository {
         const [foundEvents, total] = await Promise.all([
             await this.prismaService.event.findMany({
                 where: {
-                    status: "ACTIVE"
+                    status: "ACTIVE",
+                    isPublic: true,
                 },
                 orderBy: {
                     createdAt: "desc"
@@ -180,6 +180,63 @@ export class EventRepository {
             },
         });
         return events;
+    };
+
+    async editEvent(
+        eventId: number, 
+        organizationId: number,
+        name: string, 
+        city: string,
+        country: string,
+        platform: string,
+        link: string,
+        locationType: LocationType, 
+        description: string, 
+        image: string, 
+        startDate: string, 
+        endDate: string, 
+        status: Status,
+        theme: Theme,
+        isPublic: boolean,
+        isRequireApproval: boolean,
+        isWaitlist: boolean
+    ) {
+        const updatedEvent = await this.prismaService.event.update({
+            where: {
+                id: eventId
+            },
+            data: {
+                name: name,
+                locationType: locationType,
+                city: city,
+                country: country,
+                platform: platform,
+                link: link,
+                image: image,
+                description: description,
+                startDate: startDate,
+                endDate: endDate,
+                status: status,
+                organizationId: organizationId,
+                theme: theme,
+                isPublic: isPublic,
+                isRequireApproval: isRequireApproval,
+                isWaitlist: isWaitlist
+            }
+        });
+
+        return updatedEvent;
+    };
+    async ableEvent(eventId: number) {
+        const updatedEvent = await this.prismaService.event.update({
+            data: {
+                status: "ACTIVE"
+            },
+            where: {
+                id: eventId
+            }
+        });
+        return updatedEvent;
     }
 
 }

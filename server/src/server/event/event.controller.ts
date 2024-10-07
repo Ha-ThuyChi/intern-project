@@ -40,9 +40,9 @@ export class EventController {
     @Body() data: EventDTO
   ) {
     return this.eventService.createEvent(Number(userId), data);
-  }
+  };
 
-  @Patch(":eventId/disbale-event")
+  @Patch("disable-event/:eventId")
   disableEvent(
     @Param("eventId") eventId: number,
   ) {
@@ -54,5 +54,20 @@ export class EventController {
     @Param("userId") userId: number
   ) {
     return this.eventService.getForYouEvents(Number(userId));
-  }
+  };
+
+  @Patch("event/:userId")
+  editEvent(
+    @Body() data: EventDTO,
+    @Param("userId") userId: number
+  ) {
+    return this.eventService.editEvent(Number(userId), data);
+  };
+
+  @Patch("able-event/:eventId")
+  ableEvent(
+    @Param("eventId") eventId: number,
+  ) {
+    return this.eventService.ableEvent(Number(eventId));
+  };
 }

@@ -3,10 +3,8 @@ import { IsNumber, IsString } from "class-validator";
 
 export class TopicEventDTO {
     @ApiProperty()
-    @IsNumber()
     topicId: number;
 
-    @ApiProperty()
-    @IsNumber()
+    @ApiProperty()  
     eventId: number;
 }
