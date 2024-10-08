@@ -43,6 +43,7 @@ export class UsersService {
       data.image,
       data.secret,
       false,
+      false,
     );
     if (!createdUser) {
       throw new ConflictException("Cannot create new user.")
@@ -106,6 +107,7 @@ export class UsersService {
       dob,
       image,
       secret,
+      true,
       true
     );
     if (!createdUser) {

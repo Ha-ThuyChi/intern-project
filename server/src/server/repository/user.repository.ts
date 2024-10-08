@@ -26,6 +26,7 @@ export class UserRepository {
         dob: Date,
         image: string,
         secret: string,
+        isVerified: boolean,
         isConnectGoogle: boolean
     ) {
         const createdUser = await this.prismaService.user.create({
@@ -40,6 +41,7 @@ export class UserRepository {
                 dob: dob,
                 image: image,
                 secret: secret,
+                isVerified: isVerified,
                 isConnectGoogle: isConnectGoogle
             }
         });
@@ -127,5 +129,26 @@ export class UserRepository {
             }
         });
         return updatedUser.secret;
+    };
+
+    async deleteUser(email: string) {
+        const deletedUser = await this.prismaService.user.delete({
+            where: {
+                email: email
+            }
+        });
+        return deletedUser;
+    };
+
+    async updateVerification(email: string) {
+        const updatedUser = await this.prismaService.user.update({
+            where: {
+                email: email
+            },
+            data: {
+                isVerified: true,
+            }
+        });
+        return updatedUser;
     }
 }
