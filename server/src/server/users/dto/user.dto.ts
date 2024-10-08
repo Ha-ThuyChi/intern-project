@@ -44,4 +44,10 @@ export class UserDTO {
 
     @ApiProperty({enum: [Status.ACTIVE, Status.DISABLE, Status.PENDING]})
     status: string;
+
+    
+
+    @ApiProperty()
+    @IsOptional()
+    secret: string;
 }

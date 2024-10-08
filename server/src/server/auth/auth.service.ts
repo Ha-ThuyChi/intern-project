@@ -1,4 +1,4 @@
-import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, ConflictException, Injectable, NotAcceptableException, NotFoundException } from '@nestjs/common';
 import { SignUpDTO } from './dto/sign-up.dto';
 import { SignInDTO } from './dto/sign-in.dto';
 import * as bcrypt from "bcrypt";
@@ -6,18 +6,33 @@ import { JwtService } from '@nestjs/jwt';
 import { UserRepository } from 'src/server/repository/user.repository';
 import { UserDTO } from '../users/dto/user.dto';
 import * as nodemailer from 'nodemailer';
+import * as crypto from 'crypto';
+import { totp } from 'otplib';
+import e from 'express';
 
+const randomImage = [
+    {src: "https://www.flaticon.com/free-icon/tomato_135702?related_id=135702&origin=pack"},
+]
 
-const generateOTP = () => {
-    const digits = "0123456789";
-    let OTP = "";
+function generateSecretForUser() {
+  return crypto.randomBytes(20).toString('hex'); // Generates a secure random secret
+}
 
-    for (let i = 0; i < 4; i++) {
-        OTP += digits[Math.floor(Math.random() * 10)];
+const generateOTP = (secret: string) => {
+    totp.options = {
+        step: 60,
+        digits: 6,
     }
-
+    const OTP = totp.generate(secret)
+    console.log(OTP)
     return OTP;
 };
+
+function hashedRandomPassword() {
+    const generateRandomString = Math.random().toString(20).substr(2, 10)
+    const hashedPassword = bcrypt.hashSync(generateRandomString, 10);
+    return hashedPassword;
+}
 
 const sendVerificationEmail = async (contact: string, otp: string) => {
     try {
@@ -79,6 +94,7 @@ export class AuthService {
             data.country,
             data.dob,
             data.image,
+            data.secret,
             false
         );
         if (!createdUser) {
@@ -87,21 +103,20 @@ export class AuthService {
         return {success: true, message: "Sign up successfully."}
     };
 
-    async signInViaGoogle(email: string) {
-        const foundUser = await this.userRepository.findOneByEmail(email);
+    async signInViaGoogle(email: string, given_name: string, family_name: string, picture: string) {
+        let foundUser = await this.userRepository.findOneByEmail(email);
         if (!foundUser) {
-            return {success: false, message: "Email does not exist. Please sign up."}
+            foundUser = await this.signUpViaGoogle(email, given_name, family_name, picture)
         }
         const payload = { sub: foundUser.id, userId: foundUser.id };
         const accessToken = await this.jwtService.signAsync(payload);
         return {success: true, message: {accessToken: accessToken, userId: foundUser.id, email: foundUser.email}}
-
     };
 
     async signUpViaGoogle(email: string, given_name: string, family_name: string, picture: string) {
-        const generateRandomString = Math.random().toString(20).substr(2, 10)
-        const hashedPassword = bcrypt.hashSync(generateRandomString, 10);
-        return this.userRepository.createUser(
+        const hashedPassword = hashedRandomPassword();
+        const secret = generateSecretForUser();
+        const createdUser = await this.userRepository.createUser(
           email,
           hashedPassword,
           given_name,
@@ -111,18 +126,53 @@ export class AuthService {
           null,
           null,
           picture,
+          secret,
           true
-        )
+        );
+        return createdUser;
     };
 
     async sendOTP(email: string) {
-        const otp = generateOTP();
-        const hashedOTP = bcrypt.hashSync(otp, 10);
+        // check if email exist in the database
+        // If not, create new user account
+        const foundUser = await this.userRepository.findOneByEmail(email);
+        if (!foundUser) {
+            const newSecret = generateSecretForUser();
+            const hashedPassword = hashedRandomPassword();
+            await this.userRepository.createUser(
+                email,
+                hashedPassword,
+                "Given name",
+                "Family name",
+                null,
+                null,
+                null,
+                null,
+                null,
+                newSecret,
+                true
+            )
+            await this.userRepository.saveSecret(newSecret, email)
+        };
+        const secret = await this.userRepository.getSecret(email);
+        const otp = generateOTP(secret);
         const sentOTP = await sendVerificationEmail(email, otp);
         if (!sentOTP) {
             return {success: false, message: "Cannot send OTP."}
         }
-        return {success: true, message: "OTP is sent to your email.", otp: hashedOTP}
+        return {success: true, message: "OTP is sent to your email."}
+    };
+
+    async verifyOTP(otp: string, email: string) {
+        const foundUser = await this.userRepository.findOneByEmail(email);
+        const secret = await this.userRepository.getSecret(email);
+        const isValid = totp.verify({ token: otp, secret });
+        if (isValid) {
+            const payload = { sub: foundUser.id, userId: foundUser.id };
+            const accessToken = await this.jwtService.signAsync(payload);
+            return {success: true, message: {accessToken: accessToken, userId: foundUser.id, email: foundUser.email}};
+        }
+        return {success: false, message: "Your OTP is not correct"}
     }
     
 }
