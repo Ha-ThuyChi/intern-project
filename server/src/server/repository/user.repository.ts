@@ -25,6 +25,7 @@ export class UserRepository {
         country: string,
         dob: Date,
         image: string,
+        secret: string,
         isConnectGoogle: boolean
     ) {
         const createdUser = await this.prismaService.user.create({
@@ -38,6 +39,7 @@ export class UserRepository {
                 country: country,
                 dob: dob,
                 image: image,
+                secret: secret,
                 isConnectGoogle: isConnectGoogle
             }
         });
@@ -104,5 +106,26 @@ export class UserRepository {
             }
         });
         return foundUser;
+    };
+
+    async saveSecret(secret: string, email: string) {
+        const updatedUser = await this.prismaService.user.update({
+            data: {
+                secret: secret
+            },
+            where: {
+                email: email
+            }
+        });
+        return updatedUser;
+    };
+
+    async getSecret(email: string) {
+        const updatedUser = await this.prismaService.user.findFirst({
+            where: {
+                email: email
+            }
+        });
+        return updatedUser.secret;
     }
 }

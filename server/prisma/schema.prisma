@@ -18,6 +18,7 @@ model User {
   country             String?
   image               String?
   phone               String?
+  secret              String?
   status              Status               @default(ACTIVE)
   dob                 DateTime?
   isConnectGoogle     Boolean?

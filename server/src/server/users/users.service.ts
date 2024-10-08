@@ -41,6 +41,7 @@ export class UsersService {
       data.country,
       data.dob,
       data.image,
+      data.secret,
       false,
     );
     if (!createdUser) {
@@ -88,6 +89,7 @@ export class UsersService {
     country: string,
     dob: Date,
     image: string,
+    secret: string,
 ) {
     const foundUser = await this.userRepository.findConnectedGoogleUserByEmail(email);
     if (foundUser) {
@@ -103,6 +105,7 @@ export class UsersService {
       country,
       dob,
       image,
+      secret,
       true
     );
     if (!createdUser) {

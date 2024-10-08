@@ -69,7 +69,7 @@ export class AuthController {
     });
     // log the ticket payload in the console to see what we have
     const { email, given_name, family_name, picture } = ticket.getPayload();
-    
+    return this.authService.signUpViaGoogle(email, given_name, family_name, picture);
   };
 
   @Public()
@@ -80,12 +80,12 @@ export class AuthController {
       audience: process.env.GOOGLE_CLIENT_ID,
     });
     // log the ticket payload in the console to see what we have
-    const { email } = ticket.getPayload();
-    return this.authService.signInViaGoogle(email);
+    const { email, given_name, family_name, picture } = ticket.getPayload();
+    return this.authService.signInViaGoogle(email, given_name, family_name, picture);
   };
 
   @Public()
-  @Post("/otp/sign-in/:email")
+  @Post("/send-otp/sign-in/:email")
   signInOTP(
     @Param("email") email: string
   ) {
@@ -93,10 +93,11 @@ export class AuthController {
   };
 
   @Public()
-  @Post("/verify-otp/sign-in/:email")
+  @Post("/verify-otp/sign-in/:email/:otp")
   verifySignInOTP(
-    @Param("email") email: string
+    @Param("email") email: string,
+    @Param("otp") otp: string
   ) {
-    return this.authService.sendOTP(email);
+    return this.authService.verifyOTP(otp, email);
   }
 }
