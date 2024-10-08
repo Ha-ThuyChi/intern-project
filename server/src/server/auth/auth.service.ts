@@ -95,6 +95,7 @@ export class AuthService {
             data.dob,
             data.image,
             data.secret,
+            false,
             false
         );
         if (!createdUser) {
@@ -127,6 +128,7 @@ export class AuthService {
           null,
           picture,
           secret,
+          true,
           true
         );
         return createdUser;
@@ -150,9 +152,9 @@ export class AuthService {
                 null,
                 null,
                 newSecret,
-                true
+                false,
+                false
             )
-            await this.userRepository.saveSecret(newSecret, email)
         };
         const secret = await this.userRepository.getSecret(email);
         const otp = generateOTP(secret);
@@ -160,18 +162,25 @@ export class AuthService {
         if (!sentOTP) {
             return {success: false, message: "Cannot send OTP."}
         }
-        return {success: true, message: "OTP is sent to your email."}
+        return {success: true, message: "OTP is sent to your email.", otp: otp}
     };
 
     async verifyOTP(otp: string, email: string) {
         const foundUser = await this.userRepository.findOneByEmail(email);
         const secret = await this.userRepository.getSecret(email);
         const isValid = totp.verify({ token: otp, secret });
+        console.log(totp.check(otp, secret))
         if (isValid) {
+            await this.userRepository.updateVerification(email)
             const payload = { sub: foundUser.id, userId: foundUser.id };
             const accessToken = await this.jwtService.signAsync(payload);
             return {success: true, message: {accessToken: accessToken, userId: foundUser.id, email: foundUser.email}};
-        }
+        } 
+        if (!isValid && !foundUser.isVerified) {
+            await this.userRepository.deleteUser(email);
+            console.log("delete user")
+        };
+        
         return {success: false, message: "Your OTP is not correct"}
     }
     

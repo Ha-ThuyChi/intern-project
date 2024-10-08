@@ -19,6 +19,7 @@ model User {
   image               String?
   phone               String?
   secret              String?
+  isVerified          Boolean              @default(false)
   status              Status               @default(ACTIVE)
   dob                 DateTime?
   isConnectGoogle     Boolean?
