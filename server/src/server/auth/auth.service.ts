@@ -8,11 +8,6 @@ import { UserDTO } from '../users/dto/user.dto';
 import * as nodemailer from 'nodemailer';
 import * as crypto from 'crypto';
 import { totp } from 'otplib';
-import e from 'express';
-
-const randomImage = [
-    {src: "https://www.flaticon.com/free-icon/tomato_135702?related_id=135702&origin=pack"},
-]
 
 function generateSecretForUser() {
   return crypto.randomBytes(20).toString('hex'); // Generates a secure random secret
@@ -142,8 +137,8 @@ export class AuthService {
             await this.userRepository.createUser(
                 email,
                 hashedPassword,
-                "Given name",
-                "Family name",
+                null,
+                null,
                 null,
                 null,
                 null,
