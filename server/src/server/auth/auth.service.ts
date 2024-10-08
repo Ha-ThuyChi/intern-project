@@ -24,7 +24,6 @@ const generateOTP = (secret: string) => {
         digits: 6,
     }
     const OTP = totp.generate(secret)
-    console.log(OTP)
     return OTP;
 };
 
@@ -50,7 +49,6 @@ const sendVerificationEmail = async (contact: string, otp: string) => {
             subject: "Verification Code",
             text: `Your verification code is: ${otp}`,
         });
-        console.log(info)
         return info.messageId;
     } catch (error) {
         console.error("Error sending email:", error);
@@ -169,7 +167,6 @@ export class AuthService {
         const foundUser = await this.userRepository.findOneByEmail(email);
         const secret = await this.userRepository.getSecret(email);
         const isValid = totp.verify({ token: otp, secret });
-        console.log(totp.check(otp, secret))
         if (isValid) {
             await this.userRepository.updateVerification(email)
             const payload = { sub: foundUser.id, userId: foundUser.id };
@@ -178,7 +175,6 @@ export class AuthService {
         } 
         if (!isValid && !foundUser.isVerified) {
             await this.userRepository.deleteUser(email);
-            console.log("delete user")
         };
         
         return {success: false, message: "Your OTP is not correct"}
