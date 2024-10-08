@@ -5,10 +5,12 @@ import { Status } from "src/server/enum";
 export class UserDTO {
     @ApiProperty()
     @IsString()
+    @IsOptional()
     firstName: string;
 
     @ApiProperty()
     @IsString()
+    @IsOptional()
     lastName: string;
 
     @ApiProperty()
@@ -17,14 +19,17 @@ export class UserDTO {
 
     @ApiProperty()
     @IsString()
+    @IsOptional()
     password: string;
 
     @ApiProperty()
     @IsString()
+    @IsOptional()
     city: string;
 
     @ApiProperty()
     @IsString()
+    @IsOptional()
     country: string;
 
     @ApiProperty()
