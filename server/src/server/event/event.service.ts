@@ -37,7 +37,6 @@ export class EventService {
       data.link,
       data.locationType,
       data.description,
-      data.image,
       data.startDate,
       data.endDate,
       data.status,
@@ -45,12 +44,11 @@ export class EventService {
       data.isPublic,
       data.isRequireApproval,
       data.isWaitlist
-
     );
     if (!createdEvent) {
       throw new NotAcceptableException("Cannot create a new event.");
     };
-    return {success: true, message: "A new event is created."}
+    return {success: true, message: "A new event is created.", event: createdEvent}
   };
 
   async disableEvent(eventId: number) {
@@ -82,7 +80,6 @@ export class EventService {
       data.link,
       data.locationType,
       data.description,
-      data.image,
       data.startDate,
       data.endDate,
       data.status,

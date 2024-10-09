@@ -79,6 +79,8 @@ export class AuthController {
       idToken: token,
       audience: process.env.GOOGLE_CLIENT_ID,
     });
+    console.log(token)
+    console.log(ticket)
     // log the ticket payload in the console to see what we have
     const { email, given_name, family_name, picture } = ticket.getPayload();
     return this.authService.signInViaGoogle(email, given_name, family_name, picture);
