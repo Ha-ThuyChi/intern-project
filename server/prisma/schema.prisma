@@ -59,7 +59,6 @@ model Event {
   country                  String?
   platform                 String?
   link                     String?
-  image                    String?
   description              String
   startDate                String
   endDate                  String

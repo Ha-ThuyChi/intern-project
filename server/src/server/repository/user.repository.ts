@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { BadRequestException, Injectable } from "@nestjs/common";
 import { PrismaService } from "src/prisma/prisma.service";
 import * as bcrypt from "bcrypt";
 
@@ -148,6 +148,15 @@ export class UserRepository {
     };
 
     async changePassword(userId: number, password: string) {
+        const foundUser = await this.prismaService.user.findFirst({
+            where: {
+                id: userId
+            }
+        })
+        const isMatch: boolean = bcrypt.compareSync(password, foundUser.password);
+        if (isMatch) {
+            throw new BadRequestException("New password must be different from the old one.");
+        };
         const hashedPassword = bcrypt.hashSync(password, 10);
         const updatedAccount = await this.prismaService.user.update({
             where: {
@@ -160,4 +169,16 @@ export class UserRepository {
         return updatedAccount
     };
 
+    async checkPassword(userId: number, password: string) {
+        const foundUser = await this.prismaService.user.findFirst({
+            where: {
+                id: userId
+            }
+        })
+        const isMatch: boolean = bcrypt.compareSync(password, foundUser.password);
+        if (isMatch) {
+            throw new BadRequestException("New password must be different from the old one.");
+        };
+        return {success: true, message: "Password is correct."}
+    }
 }

@@ -23,9 +23,9 @@ export class EventDTO {
     locationType: LocationType;
     
 
-    @ApiProperty()
-    @IsString()
-    image: string;
+    // @ApiProperty()
+    // @IsString()
+    // image: string;
 
     @ApiProperty()
     @IsString()
