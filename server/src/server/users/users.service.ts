@@ -1,7 +1,8 @@
-import { BadRequestException, ConflictException, Injectable, NotAcceptableException, NotFoundException } from '@nestjs/common';
+import { BadRequestException, ConflictException, Injectable, InternalServerErrorException, NotAcceptableException, NotFoundException } from '@nestjs/common';
 import { UserRepository } from 'src/server/repository/user.repository';
 import { UserDTO } from './dto/user.dto';
 import { EventRepository } from '../repository/event.repository';
+import { ChangePasswordDTO } from './dto/changePassword.dto';
 
 @Injectable()
 export class UsersService {
@@ -114,5 +115,30 @@ export class UsersService {
       throw new ConflictException("Cannot create new user.")
     }
     return {success: true, message: "Account is created successfully."};
-};
+  };
+
+  async changePassword(
+    userId: number,
+    data: ChangePasswordDTO
+  ) {
+    const isExist = await this.userRepository.checkExistPassword(userId);
+
+    // If pwd is existed, check if the current pwd is match, and if the new pwd is the same as in database
+    if (isExist) {
+      const isMatch = await this.userRepository.checkMatchingPassword(userId, data.currentPassword);
+      if (!isMatch) {
+        throw new BadRequestException("Current password is incorrect.");
+      };
+      const isDuplicatedPassword = await this.userRepository.checkMatchingPassword(userId, data.newPassword);
+      if (isDuplicatedPassword) {
+        throw new BadRequestException("New password must be different from the old one.");
+      };
+    }
+    const updatedPassword = await this.userRepository.changePassword(userId, data.newPassword);
+    if (!updatedPassword) {
+      throw new InternalServerErrorException("Cannot update password.");
+    };
+    return {success: true, message: "Password is updated successgully."};
+
+  }
 }

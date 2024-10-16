@@ -27,6 +27,7 @@ export class EventService {
   };
 
   async createEvent(userId: number, data: EventDTO) {
+    console.log(userId)
     const createdEvent = await this.eventRepository.createEvent(
       userId,
       data.organizationId,
@@ -69,9 +70,9 @@ export class EventService {
     return {success: true, message: foundEvents};
   }
 
-  async editEvent(userId: number, data: EventDTO) {
+  async editEvent(eventId: number, data: EventDTO) {
     const updatedEvent = await this.eventRepository.editEvent(
-      userId,
+      eventId,
       data.organizationId,
       data.name,
       data.city,

@@ -32,12 +32,10 @@ export class EventDTO {
     description: string;
 
     @ApiProperty()
-    @IsString()
-    startDate: string;
+    startDate: Date;
 
     @ApiProperty()
-    @IsString()
-    endDate: string;
+    endDate: Date;
 
     @ApiProperty({enum: ["ACTIVE", "DISABLE", "PENDING"]})
     status: Status;
