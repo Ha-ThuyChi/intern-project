@@ -22,7 +22,8 @@ model User {
   isVerified          Boolean              @default(false)
   status              Status               @default(ACTIVE)
   dob                 DateTime?
-  isConnectGoogle     Boolean?
+  isConnectedGoogle   Boolean?             @default(false)
+  isValidPassword     Boolean             @default(false) //If user has a password
   attendees           Attendee[]
   blogs               Blog[]
   events              Event[]
@@ -60,8 +61,8 @@ model Event {
   platform                 String?
   link                     String?
   description              String
-  startDate                String
-  endDate                  String
+  startDate                DateTime
+  endDate                  DateTime
   status                   Status
   userId                   Int
   organizationId           Int?
@@ -127,14 +128,14 @@ model TopicsOfEvents {
 }
 
 model Session {
-  id          Int      @id @default(autoincrement())
-  name        String
+  id          Int                   @id @default(autoincrement())
+  name        String?               @default("Session")
   description String?
   hostName    String?
   eventId     Int
   startDate   DateTime
   endDate     DateTime
-  Event       Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  Event       Event                 @relation(fields: [eventId], references: [id], onDelete: Cascade)
 }
 
 model Blog {

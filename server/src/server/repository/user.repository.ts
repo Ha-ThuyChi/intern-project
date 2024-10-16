@@ -43,7 +43,7 @@ export class UserRepository {
                 image: image,
                 secret: secret,
                 isVerified: isVerified,
-                isConnectGoogle: isConnectGoogle
+                isConnectedGoogle: isConnectGoogle
             }
         });
         return createdUser;
@@ -99,7 +99,7 @@ export class UserRepository {
         const foundUser = await this.prismaService.user.findFirst({
             where: {
                 email: email,
-                isConnectGoogle: false
+                isConnectedGoogle: false
             }
         });
         return foundUser;
@@ -148,15 +148,27 @@ export class UserRepository {
     };
 
     async changePassword(userId: number, password: string) {
-        const foundUser = await this.prismaService.user.findFirst({
+        // const foundUser = await this.prismaService.user.findFirst({
+        //     where: {
+        //         id: userId
+        //     }
+        // });
+        // // check duplicated password
+        // const isMatch: boolean = bcrypt.compareSync(password, foundUser.password);
+        // if (isMatch) {
+        //     throw new BadRequestException("New password must be different from the old one.");
+        // };
+
+        // update isValidPassword
+        await this.prismaService.user.update({
             where: {
-                id: userId
+                id: userId,
+            },
+            data: {
+                isValidPassword: true,
             }
-        })
-        const isMatch: boolean = bcrypt.compareSync(password, foundUser.password);
-        if (isMatch) {
-            throw new BadRequestException("New password must be different from the old one.");
-        };
+        });
+
         const hashedPassword = bcrypt.hashSync(password, 10);
         const updatedAccount = await this.prismaService.user.update({
             where: {
@@ -166,19 +178,25 @@ export class UserRepository {
                 password: hashedPassword
             }
         });
-        return updatedAccount
+        return updatedAccount;
     };
 
-    async checkPassword(userId: number, password: string) {
+    async checkMatchingPassword(userId: number, password: string) {
         const foundUser = await this.prismaService.user.findFirst({
             where: {
                 id: userId
             }
-        })
+        });
         const isMatch: boolean = bcrypt.compareSync(password, foundUser.password);
-        if (isMatch) {
-            throw new BadRequestException("New password must be different from the old one.");
-        };
-        return {success: true, message: "Password is correct."}
+        return isMatch;
+    };
+
+    async checkExistPassword(userId: number) {
+        const foundUser = await this.prismaService.user.findFirst({
+            where: {
+                id: userId
+            }
+        });
+        return foundUser.isValidPassword;
     }
 }

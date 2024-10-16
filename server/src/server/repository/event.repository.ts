@@ -65,8 +65,8 @@ export class EventRepository {
         link: string,
         locationType: LocationType, 
         description: string, 
-        startDate: string, 
-        endDate: string, 
+        startDate: Date, 
+        endDate: Date, 
         status: Status,
         theme: Theme,
         isPublic: boolean,
@@ -189,8 +189,8 @@ export class EventRepository {
         link: string,
         locationType: LocationType, 
         description: string, 
-        startDate: string, 
-        endDate: string, 
+        startDate: Date, 
+        endDate: Date, 
         status: Status,
         theme: Theme,
         isPublic: boolean,
@@ -212,11 +212,11 @@ export class EventRepository {
                 startDate: startDate,
                 endDate: endDate,
                 status: status,
-                organizationId: organizationId,
                 theme: theme,
-                isPublic: isPublic,
                 isRequireApproval: isRequireApproval,
-                isWaitlist: isWaitlist
+                isWaitlist: isWaitlist,
+                organizationId: organizationId,
+                isPublic: isPublic,
             }
         });
 

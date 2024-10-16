@@ -56,12 +56,12 @@ export class EventController {
     return this.eventService.getForYouEvents(Number(userId));
   };
 
-  @Patch("event/:userId")
+  @Patch("event/:eventId")
   editEvent(
     @Body() data: EventDTO,
-    @Param("userId") userId: number
+    @Param("eventId") eventId: number
   ) {
-    return this.eventService.editEvent(Number(userId), data);
+    return this.eventService.editEvent(Number(eventId), data);
   };
 
   @Patch("able-event/:eventId")

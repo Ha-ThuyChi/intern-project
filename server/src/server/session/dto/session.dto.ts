@@ -1,13 +1,15 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsDate, IsString } from "class-validator";
+import { IsDate, IsOptional, IsString } from "class-validator";
 
 export class SessionDTO {
     @ApiProperty()
     @IsString()
+    @IsOptional()
     name: string;
 
     @ApiProperty()
     @IsString()
+    @IsOptional()
     description: string;
 
     @ApiProperty()
@@ -20,5 +22,6 @@ export class SessionDTO {
 
     @ApiProperty()
     @IsString()
+    @IsOptional()
     hostName: string;
 }

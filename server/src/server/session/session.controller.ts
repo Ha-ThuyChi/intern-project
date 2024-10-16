@@ -18,14 +18,14 @@ export class SessionController {
 
     @Public()
     @Get(":sessionId")
-    getSessionBySessiontId(
+    getSessionBySessionId(
         @Param("sessionId") sessionId: number
     ) {
         return this.sessionService.findOne(Number(sessionId));
     };
 
     @Get("session/:eventId")
-    getSessionByUserId(
+    getSessionByEventId(
         @Param("eventId") eventId: number,
         @Query() data: PaginationDTO
     ) {

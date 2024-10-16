@@ -1,6 +1,7 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UserDTO } from './dto/user.dto';
+import { ChangePasswordDTO } from './dto/changePassword.dto';
 
 @Controller('users')
 export class UsersController {
@@ -26,5 +27,13 @@ export class UsersController {
     @Body() data: UserDTO
   ) {
     return this.usersService.editAccount(Number(userId), data)
+  };
+
+  @Patch("change-password/:userId")
+  changePassword(
+    @Param("userId") userId: number,
+    @Body() data: ChangePasswordDTO
+  ) {
+    return this.usersService.changePassword(Number(userId), data)
   }
 }
