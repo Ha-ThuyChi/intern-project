@@ -11,6 +11,7 @@ import { TicketModule } from './ticket/ticket.module';
 import { BlogModule } from './blog/blog.module';
 import { TopicModule } from './topic/topic.module';
 import { ConfigModule } from '@nestjs/config';
+import { AttendeeModule } from './attendee/attendee.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { ConfigModule } from '@nestjs/config';
       isGlobal: true,
       envFilePath: '.env',
     }),
+    AttendeeModule
   ],
   controllers: [
     AppController

@@ -23,10 +23,8 @@ export class TicketDTO {
     isVisible: boolean;
 
     @ApiProperty()
-    @IsDate()
     startDate: Date;
 
     @ApiProperty()
-    @IsDate()
     endDate: Date;
 }
