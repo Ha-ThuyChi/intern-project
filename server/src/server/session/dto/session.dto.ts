@@ -13,11 +13,9 @@ export class SessionDTO {
     description: string;
 
     @ApiProperty()
-    @IsDate()
     startDate: Date;
 
     @ApiProperty()
-    @IsDate()
     endDate: Date;
 
     @ApiProperty()

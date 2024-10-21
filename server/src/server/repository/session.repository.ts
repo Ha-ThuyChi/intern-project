@@ -43,7 +43,7 @@ export class SessionRepository {
                     eventId: eventId
                 },
                 orderBy: {
-                    startDate: "desc"
+                    startDate: "asc"
                 },
                 skip: skip,
                 take: limit,
