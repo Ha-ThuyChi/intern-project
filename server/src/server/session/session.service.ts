@@ -2,12 +2,20 @@ import { Injectable, NotAcceptableException, NotFoundException } from "@nestjs/c
 import { SessionRepository } from "src/server/repository/session.repository";
 import { SessionDTO } from "./dto/session.dto";
 import { PaginationDTO } from "src/server/pagination.dto";
+import { EventRepository } from "../repository/event.repository";
 
 @Injectable()
 export class SessionService {
-    constructor(private sessionRepository: SessionRepository) {}
+    constructor(
+        private sessionRepository: SessionRepository,
+        private eventRepository: EventRepository
+    ) {}
 
     async createSession(eventId: number, data: SessionDTO) {
+        const foundEvent = await this.eventRepository.findOne(eventId);
+        if (!foundEvent) {
+            throw new NotFoundException("Event does not exist.")
+        };
         const createdSession = await this.sessionRepository.createsession(
             eventId,
             data.name,
@@ -53,7 +61,7 @@ export class SessionService {
         if (!updatedSession) {
             throw new NotFoundException("Cannot updated session.")
         };
-        return {success: true, message: updatedSession};
+        return {success: true, message: "Session is updated."};
     };
     
     async deletedSession(sessionId: number) {
@@ -61,6 +69,6 @@ export class SessionService {
         if (!deletedSession) {
             throw new NotFoundException("Cannot delete session.")
         };
-        return {success: true, message: deletedSession};
+        return {success: true, message: "Session is deleted."};
     };
 }
