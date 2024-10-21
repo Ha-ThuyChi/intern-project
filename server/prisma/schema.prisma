@@ -80,6 +80,7 @@ model Event {
   sessions                 Session[]
   topics                   TopicsOfEvents[]
   userFavouriteEvents      UserFavouriteEvent[]
+  Ticket                   Ticket[]
 }
 
 model FrequentlyAskedQuestion {
@@ -153,7 +154,7 @@ model Attendee {
   Ticket   Ticket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
   User     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@id([userId, ticketId])
+  @@id(name: "attendeeId", [userId, ticketId])
 }
 
 model Ticket {
@@ -168,6 +169,7 @@ model Ticket {
   endDate    DateTime
   attendees  Attendee[]
   users      User[]     @relation("TicketToUser")
+  Event      Event      @relation(fields: [eventId], references: [id])
 }
 
 model Feedback {
